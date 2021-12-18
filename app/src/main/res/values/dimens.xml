@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_padding">8dp</dimen>
+
+    <!-- TODO: Add necessary dimension values -->
+
+    <dimen name="main_dims">16dp</dimen>
+    <dimen name="small_dims">8dp</dimen>
+
+
+</resources>

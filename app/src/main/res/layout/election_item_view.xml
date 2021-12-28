@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="election_list"
             type="com.example.android.politicalpreparedness.network.models.Election" />
@@ -15,28 +16,27 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-<!-- the click works woth this removed
-        android:onClick="@{() -> clickListener.onClick(election_list)}">-->
+        <!-- the click works woth this removed
+                android:onClick="@{() -> clickListener.onClick(election_list)}">-->
         <!-- this is a databinding lambda -->
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Title"
             android:id="@+id/election_title"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:text="@{election_list.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="VIP Election Test"
-            android:text="@{election_list.name}"
-            />
+            tools:text="VIP Election Test" />
 
 
         <TextView
@@ -45,11 +45,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:text="@{election_list.electionDay.toString()}"
             app:layout_constraintEnd_toEndOf="@+id/election_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/election_title"
-            android:text="@{election_list.electionDay.toString()}"
-            tools:text="Sun Jun 06.00 00.00. 2020"/>
+            tools:text="Sun Jun 06.00 00.00. 2020" />
 
         <!-- use android:text format for the date -->
 

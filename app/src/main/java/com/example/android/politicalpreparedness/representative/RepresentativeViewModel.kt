@@ -16,9 +16,13 @@ class RepresentativeViewModel : ViewModel() {
     val representatives: LiveData<List<Representative>>
         get() = _representatives
 
+    private val _repImage = MutableLiveData<Representative>()
+    val repImage: LiveData<Representative>
+    get() = _repImage
+
     private val _address = MutableLiveData<Address>()
     val address: LiveData<Address>
-    get() = _address
+        get() = _address
 
     //use this for testing the network connection
     private val _response = MutableLiveData<String>()
@@ -33,13 +37,18 @@ class RepresentativeViewModel : ViewModel() {
     val state = MutableLiveData<String>()
     val zip = MutableLiveData<Int>()
 
-
     //TO DO: Create function to fetch representatives from API from a provided address
 
     fun getRepresentatives() {///*address: String*/){
         viewModelScope.launch {
             _address.value?.let {
                 try {
+                 //   val response = getRepresentatives(it.toFormattedString())
+                ////    val offices = response.offices
+                //    val officials = response.officials
+
+
+
                     val address = _address.value!!.toFormattedString()
                     val (office, officials) = CivicsApi.retrofitService.getRepresentatives(address)
                     _representatives.value = office.flatMap { office1 ->
@@ -48,24 +57,13 @@ class RepresentativeViewModel : ViewModel() {
                 } catch (e: Exception) {
                     _response.value = "Failure: ${e.message}}"
                 }
-            }}
+            }
+        }
     }
 
     /**
      *  The following code will prove helpful in constructing a representative from the API. This code combines the two nodes of the RepresentativeResponse into a single official :
      */
-    /*
-    private fun getReps() {
-        viewModelScope.launch {
-            try {
-                //val (offices, officials) = getRepresentativesDeferred.await()
-                val (offices, officials) = CivicsApi.retrofitService.getRepresentatives()
-                _representatives.value = offices.flatMap { office -> office.getRepresentatives(officials) }
-            } catch (e: Exception) {
-                _response.value = "Failure: ${e.message} "
-            }
-        }
-    }*/
 
 
     //TO DO: Create function get address from geo location
@@ -75,33 +73,8 @@ class RepresentativeViewModel : ViewModel() {
 
     init {
         _address.value = Address("", "", "", "New York", "")
+
     }
-
-
-
-    //TO DO: Create function to get address from individual fields
-
-//this could be used for the input
-//   fun getAddressFromList(address: Address) {
-//        viewModelScope.launch {
-//           try {
-//               _address.value = Address(
-//               address.line1,
-//               address.line2,
-//               address.city,
-//               address.state,
-//               address.zip)
-//               getRepresentatives(_address.toString())
-//             //  val getRepresentatives = CivicsApi.retrofitService.getRepresentatives(add.toFormattedString())
-//              // val listReps = getRepresentatives()
-//          } catch (e: Exception) {
-//              _response.value = "Failure: ${e.message}"
-//           }
-//        }
-//       }
-
-    //THIS IS THE BIT THAT NEEDS TO BE PROGRESSED
-
 
 
     fun onClear() {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-
 <!--
- THIS IS THE CURRENT VERSION ____ save_2
+ THIS IS THE CURRENT VERSION ____ save_4
+ 24.12.21
+
  project stages complete
 Version 8 -
 Navigates to the detailed election view.
@@ -142,7 +142,7 @@ Does the application provide a coherent user experience that effectively and int
     <string name="follow_button">FOLLOW</string>
     <string name="unfollow_button">UNFOLLOW</string>
 
-<!-- permissions messages-->
+    <!-- permissions messages-->
     <string name="permission_denied_explanation">You need to grant location permission in order to select the location.</string>
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.
@@ -160,39 +160,36 @@ Does the application provide a coherent user experience that effectively and int
     <string name="hint_address_line2">Add second address line</string>
     <string name="voter_locations">Voter Locations</string>
     <string name="ballot_locations">Ballot Locations</string>
-
-
-
-
+    <string name="posting_vote">Image of a posting vote</string>
+    <string name="representatives_search">Representatives Search</string>
 
 
 </resources>
 
 
+    <!--
 
-<!--
-
-Refer to square moshi for date formatting
-Date.java, Rfc3339DateJsonAdapter for use with moshi.
-https://github.com/square/moshi/blob/master/adapters/src/main/java/com/squareup/moshi/adapters/Rfc3339DateJsonAdapter.java
-
-
-Errors:
-
-Issue with parsing json data from Civics website.
-
-error::: https://duckduckgo.com/?q=kotlin+failure%3A+expected+BEGIN_ARRAY+but+was+BEGIN_OBJECT+as+path+%24&t=osx&ia=web
-solution :-
+    Refer to square moshi for date formatting
+    Date.java, Rfc3339DateJsonAdapter for use with moshi.
+    https://github.com/square/moshi/blob/master/adapters/src/main/java/com/squareup/moshi/adapters/Rfc3339DateJsonAdapter.java
 
 
-Define an item as an annotated data class which represents a database entity
-Data is represented in data classes, WE use entities and queries.
+    Errors:
+
+    Issue with parsing json data from Civics website.
+
+    error::: https://duckduckgo.com/?q=kotlin+failure%3A+expected+BEGIN_ARRAY+but+was+BEGIN_OBJECT+as+path+%24&t=osx&ia=web
+    solution :-
 
 
-#####STATE OF THE APP  ##############
-- Elections recycler list sorted
-- VoterInfo screen sorted
-- Link to web resources sorted
-        Need to resolve following election
+    Define an item as an annotated data class which represents a database entity
+    Data is represented in data classes, WE use entities and queries.
 
--->
+
+    #####STATE OF THE APP  ##############
+    - Elections recycler list sorted
+    - VoterInfo screen sorted
+    - Link to web resources sorted
+            Need to resolve following election
+
+    -->

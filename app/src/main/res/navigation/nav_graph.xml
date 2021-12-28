@@ -23,8 +23,9 @@
         android:id="@+id/representativeFragment"
         android:name="com.example.android.politicalpreparedness.representative.DetailFragment"
         android:label="fragment_representative"
-        tools:layout="@layout/fragment_representative">
-    </fragment>
+        tools:layout="@layout/fragment_representative"/>
+
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/voterInfoFragment"
@@ -41,8 +42,8 @@
             app:destination="@id/electionsFragment" />
 
         <!--        <argument-->
-<!--            android:name="selectedElection"-->
-<!--            app:argType="com.example.android.politicalpreparedness.network.models.Election"/>-->
+        <!--            android:name="selectedElection"-->
+        <!--            app:argType="com.example.android.politicalpreparedness.network.models.Election"/>-->
 
     </fragment>
 

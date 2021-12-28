@@ -11,7 +11,7 @@ import com.example.android.politicalpreparedness.network.models.FollowedElection
 //the database schema has changed, now rev2
 @Database(entities = [Election::class, FollowedElection::class], version = 1, exportSchema = false)     // we need to add the followedelection here
 @TypeConverters(Converters::class)
-abstract class ElectionDatabase: RoomDatabase() {
+abstract class ElectionDatabase : RoomDatabase() {
 
     abstract val electionDao: ElectionDao
 

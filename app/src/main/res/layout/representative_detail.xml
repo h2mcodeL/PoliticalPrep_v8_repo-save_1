@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="representative"
             type="com.example.android.politicalpreparedness.representative.model.Representative" />
+
+        <variable
+            name="clickListener"
+            type="com.example.android.politicalpreparedness.representative.adapter.RepresentativeClickListener"/>
+
+        <variable
+            name="repPhoto"
+            type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(representative)}"
+        >
 
         <ImageView
             android:id="@+id/representativePhoto"
@@ -23,43 +34,45 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:profileImage="@{repPhoto.repImage.official.photoUrl}"
             app:srcCompat="@drawable/ic_profile" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/representative_position"
             style="@style/TextTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/representativePhoto"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="President of the States" />
+<!--        android:text="TextView"-->
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/elect_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="TextView"
             app:layout_constraintEnd_toStartOf="@+id/wwwIcon"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/position"
+            app:layout_constraintTop_toBottomOf="@+id/position"
             tools:text="Peter Jones" />
+<!--        android:text="TextView"-->
+
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/partyName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="TextView"
             app:layout_constraintEnd_toStartOf="@+id/wwwIcon"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="@+id/elect_name"
+            app:layout_constraintTop_toBottomOf="@+id/elect_name"
             tools:text="The Other Party" />
+<!--        android:text="TextView"-->
 
         <ImageView
             android:id="@+id/wwwIcon"

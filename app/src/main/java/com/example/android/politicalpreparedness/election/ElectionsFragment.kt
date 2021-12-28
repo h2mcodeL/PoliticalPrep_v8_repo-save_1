@@ -14,12 +14,12 @@ import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
 import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
 
-class ElectionsFragment: Fragment() {
+class ElectionsFragment : Fragment() {
 
     private lateinit var electViewModel: ElectionsViewModel
     private lateinit var binding: FragmentElectionBinding
 
-   // private lateinit var adapterSavedElections: ElectionListAdapter
+    // private lateinit var adapterSavedElections: ElectionListAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -43,32 +43,43 @@ class ElectionsFragment: Fragment() {
         //binding observes livedata updates in the viewmodel
         binding.lifecycleOwner = this
 
+//alternative method
+//        val elecAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener { click -> click })
+//        binding.upcomingElectionsList.adapter = elecAdapter
+//
+//        electViewModel.upcomingElections.observe(viewLifecycleOwner, Observer {
+//            it?.let { elecAdapter.submitList(it) }
+//        })
+
         //TO DO: Initiate recycler adapters. We use the binding to link the adapter to the recycler view
         binding.upcomingElectionsList.adapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
             it.let {
                 electViewModel.displayElectionDetails(it)
+              //  Log.i("RecyclerList", "THE ELECTION LIST IS: - $it.name , $it.electionDay, $it.electionDay")
             }
         })
 
         electViewModel.navigateToVoterInfo.observe(viewLifecycleOwner, Observer {
-            if(null != it) {
+            if (null != it) {
                 this.findNavController().navigate(ElectionsFragmentDirections.electionFragmentToVoterInfoFragment(it.id, it.division))
-                        electViewModel.displayElectionDetailsComplete()
+                electViewModel.displayElectionDetailsComplete()
+
+
             }
         })
 
 //need to work more on this
-    //SAVED ELECTIONS
+        //SAVED ELECTIONS
         binding.savedElectionsList.adapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener { //electionFollowed ->
-         it.let {
-             //if (electionFollowed.equals(true)) {
-             //electViewModel.delete(it.id)
-             electViewModel.displaySavedElection(it)
-         }
+            it.let {
+                //if (electionFollowed.equals(true)) {
+                //electViewModel.delete(it.id)
+                electViewModel.displaySavedElection(it)
+            }
         })
 
         //TO DO: Refresh adapters when fragment loads
-        binding.refreshLayout.setOnRefreshListener {electViewModel.refreshList()}
+        binding.refreshLayout.setOnRefreshListener { electViewModel.refreshList() }
 
         return binding.root
     }

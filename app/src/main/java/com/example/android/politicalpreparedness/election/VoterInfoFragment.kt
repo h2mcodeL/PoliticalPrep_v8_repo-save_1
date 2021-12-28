@@ -18,7 +18,7 @@ import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBi
 
 class VoterInfoFragment : Fragment() {
 
-    private lateinit var viewModel : VoterInfoViewModel
+    private lateinit var viewModel: VoterInfoViewModel
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -30,9 +30,9 @@ class VoterInfoFragment : Fragment() {
         //using this method we bind directly to the view using the binding reference
         val binding = FragmentVoterInfoBinding.inflate(inflater)
 
-       // binding.lifecycleOwner = this
+        // binding.lifecycleOwner = this
 
-       //TO DO: Add ViewModel values and create ViewModel
+        //TO DO: Add ViewModel values and create ViewModel
         val dataSource = ElectionDatabase.getInstance(application).electionDao  //this gives access to teh DAO
 
         val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())      //were using navigation safeArgs
@@ -64,27 +64,28 @@ class VoterInfoFragment : Fragment() {
         })
 
         viewModel.ballotInformation.observe(viewLifecycleOwner, Observer {
-            if(it != null) {
-            it?.let {
-               // Log.i("THE BALLOT URL", it)
-                loadUrl(it)
-                viewModel.ballotInformationClick()
-                viewModel.ballotUrlNavigated()
-            } } else {
+            if (it != null) {
+                it?.let {
+                    // Log.i("THE BALLOT URL", it)
+                    loadUrl(it)
+                    viewModel.ballotInformationClick()
+                    viewModel.ballotUrlNavigated()
+                }
+            } else {
                 Toast.makeText(context, "Sorry no URL", Toast.LENGTH_SHORT).show()
             }
         })
 
         //TO DO: Add binding values
 
-       //we need to get the election id from the electionFragment for use here
-       //to use safeArgs, we need to add the arguments to the navGraph...
-       // val electionId = VoterInfoFragmentArgs.fromBundle(requireArguments()).argElectionId   ----- refer to above
+        //we need to get the election id from the electionFragment for use here
+        //to use safeArgs, we need to add the arguments to the navGraph...
+        // val electionId = VoterInfoFragmentArgs.fromBundle(requireArguments()).argElectionId   ----- refer to above
 
         //TODO: Populate voter info -- hide views without provided data.
         /**
         Hint: You will need to ensure proper data is provided from previous fragment.
-        */
+         */
         //check if this is done here or in the viewmodel
 
         //TO DO: Handle loading of URLs
@@ -99,9 +100,10 @@ class VoterInfoFragment : Fragment() {
                 } else {
                     binding.followbutton.text = getString(R.string.follow_button)
                 }
-            }})
+            }
+        })
 
-            //TO DO: cont'd Handle save button clicks
+        //TO DO: cont'd Handle save button clicks
 
         return binding.root
 
@@ -109,11 +111,11 @@ class VoterInfoFragment : Fragment() {
 
     //TO DO: Create method to load URL intents
 
-   @SuppressLint("QueryPermissionsNeeded")
+    @SuppressLint("QueryPermissionsNeeded")
     private fun loadUrl(url: String) {
         val webpage: Uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, webpage)
-            startActivity(intent)
-        }
+        startActivity(intent)
     }
+}
 

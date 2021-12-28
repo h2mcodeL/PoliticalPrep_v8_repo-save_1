@@ -9,11 +9,11 @@ import com.example.android.politicalpreparedness.database.ElectionDatabase
 
 class ElectionsViewModelFactory(
         private val dataSource: ElectionDatabase,         //ElectionDao,
-        private val application: Application): ViewModelProvider.Factory {
+        private val application: Application) : ViewModelProvider.Factory {
 
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(ElectionsViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ElectionsViewModel::class.java)) {
             return ElectionsViewModel(dataSource, application) as T
         }
         //TO DO("Not yet implemented")

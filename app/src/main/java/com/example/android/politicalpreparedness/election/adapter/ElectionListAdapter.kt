@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.databinding.ElectionItemViewBinding
 import com.example.android.politicalpreparedness.network.models.Election
 
-class ElectionListAdapter (private val clickListener: ElectionClickListener):
-       ListAdapter<Election, ElectionListAdapter.ElectionViewHolder>(ElectionDiffCallback()) {
+class ElectionListAdapter(private val clickListener: ElectionClickListener) :
+        ListAdapter<Election, ElectionListAdapter.ElectionViewHolder>(ElectionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElectionViewHolder {
         return ElectionViewHolder.from(parent)
@@ -27,7 +27,7 @@ class ElectionListAdapter (private val clickListener: ElectionClickListener):
     class ElectionViewHolder private constructor(private val binding: ElectionItemViewBinding) : //private constructor added
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Election, clicklistener : ElectionClickListener) {      //create a function to bind the data required, pass in parameter named as item of an Election
+        fun bind(item: Election, clicklistener: ElectionClickListener) {      //create a function to bind the data required, pass in parameter named as item of an Election
             binding.electionList = item   //from this we now use binding to the xml views.
             binding.clickListener = clicklistener       //clicklistener added here and above
             binding.executePendingBindings()
@@ -50,8 +50,8 @@ class ElectionListAdapter (private val clickListener: ElectionClickListener):
     class ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
         override fun areItemsTheSame(oldItem: Election, newItem: Election): Boolean {
             //TO DO("Not yet implemented")
-                return oldItem/*.id*/ == newItem/*.id*/
-            }
+            return oldItem/*.id*/ == newItem/*.id*/
+        }
 
         override fun areContentsTheSame(oldItem: Election, newItem: Election): Boolean {
             //TO DO("Not yet implemented")
@@ -60,7 +60,7 @@ class ElectionListAdapter (private val clickListener: ElectionClickListener):
     }
 
     //TO DO: Create ElectionListener
-    class ElectionClickListener(val clickListener: (election : Election) -> Unit) {
+    class ElectionClickListener(val clickListener: (election: Election) -> Unit) {
         fun onClick(election: Election) = clickListener(election)
     }
 }

@@ -34,14 +34,12 @@ class ElectionsRepository(private val database: ElectionDatabase) {
         }
     }
 
-    suspend fun unfollowElection(election: Election) {
+  //  suspend fun unfollowElection(election: Election) {
+    suspend fun unfollowElection(id: Int) {
         withContext(Dispatchers.IO) {
-            database.electionDao.unfollowElection(election.id)
+            database.electionDao.unfollowElection(id)       //(election.id)
         }
     }
-
-
-
 
 
     suspend fun refreshElectionsList() {
@@ -49,8 +47,8 @@ class ElectionsRepository(private val database: ElectionDatabase) {
             try {
                 val elecResponses = CivicsApi.retrofitService.getElectionResults()
                 val results = elecResponses.elections
-                database.electionDao.insertAll (*results.toTypedArray()) //dao needs to be vararg elec: Election - not database
-              //  database.electionDao.insertAllElections(*result.toTypedArray()) //need to check on this
+                database.electionDao.insertAll(*results.toTypedArray()) //dao needs to be vararg elec: Election - not database
+                //  database.electionDao.insertAllElections(*result.toTypedArray()) //need to check on this
                 Log.d(TAG, results.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -65,8 +63,9 @@ class ElectionsRepository(private val database: ElectionDatabase) {
                 database.electionDao.getFollowedElections()
             } catch (e: Exception) {
                 e.printStackTrace()
-            }            }
+            }
         }
+    }
 
 
 /*

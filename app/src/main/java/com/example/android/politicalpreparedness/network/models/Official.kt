@@ -1,6 +1,6 @@
 package com.example.android.politicalpreparedness.network.models
 
-data class Official (
+data class Official(
         val name: String,
         val address: List<Address>? = null,
         val party: String? = null,

@@ -75,8 +75,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/upcoming_elections_list"
-                app:listData="@{electionViewModel.electionFollowed}"/>
+                app:listData="@{electionViewModel.electionFollowed}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

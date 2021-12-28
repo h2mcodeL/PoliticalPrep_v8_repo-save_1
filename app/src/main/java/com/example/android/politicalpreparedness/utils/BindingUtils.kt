@@ -30,23 +30,22 @@ fun TextView.setTitle(item: VoterInfoResponse?) {
 //create an extention function of TextView
 @BindingAdapter("electionTitle")
 fun TextView.setElectionTitle(item: Election?) {
-    item?.let{
+    item?.let {
         text = item.name
     }
 
 
-@BindingAdapter("electionDate")
-fun TextView.setElectionDate(item: Election?) {
-    item?.let {
-     //  text = item.electionDay.toString()     //this needs to be formatted
-    //    text = convertToDateString(item.electionDay)//, context.resources)
-        text = item.electionDay.toString()
+    @BindingAdapter("electionDate")
+    fun TextView.setElectionDate(item: Election?) {
+        item?.let {
+            //  text = item.electionDay.toString()     //this needs to be formatted
+            //    text = convertToDateString(item.electionDay)//, context.resources)
+            text = item.electionDay.toString()
+        }
     }
-}
 
 
-
-fun Fragment.setTitle(title: String) {
+    fun Fragment.setTitle(title: String) {
         if (activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.title = title
         }

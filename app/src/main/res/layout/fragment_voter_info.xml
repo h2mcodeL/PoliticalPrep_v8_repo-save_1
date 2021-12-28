@@ -6,7 +6,7 @@
     <!-- the web url required relates to the upcoming election   -->
 
     <data>
-    <!-- TO DO: Add data binding node for Voter Info ViewModel -->
+        <!-- TO DO: Add data binding node for Voter Info ViewModel -->
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.election.VoterInfoViewModel" />
@@ -15,9 +15,9 @@
             name="adapterlink"
             type="com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter.ElectionClickListener" />
 
-<!--        <variable-->
-<!--            name="election"-->
-<!--            type="com.example.android.politicalpreparedness.network.models.Election" />-->
+        <!--        <variable-->
+        <!--            name="election"-->
+        <!--            type="com.example.android.politicalpreparedness.network.models.Election" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,12 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:title="@{viewModel.selectedVoterInfo.contests.toString()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/state_locations"
-            app:layout_constraintTop_toTopOf="parent"
-         android:title="@{viewModel.selectedVoterInfo.contests.toString()}"/>
-<!--            app:title="@{viewModel.selectedVoterInfo.election.name.toString()}" />-->
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--            app:title="@{viewModel.selectedVoterInfo.election.name.toString()}" />-->
 
 
         <!-- TO DO: Add visual styling -->
@@ -71,7 +71,7 @@
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/election_date"
             tools:text="Election Information - Wisconsin Presidential Primary" />
-<!--        android:text="@string/election_information"-->
+        <!--        android:text="@string/election_information"-->
         <!-- TODO: Add click binding to open web URL
         need to find the urls that relate to elections in this selected state
         The text view is set to Voting Locations, viewmodel handles the link - -  state_header" -->
@@ -128,8 +128,8 @@
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/state_correspondence_header"
-            app:layout_constraintStart_toStartOf="@id/election_date" />
+            app:layout_constraintStart_toStartOf="@id/election_date"
+            app:layout_constraintTop_toBottomOf="@id/state_correspondence_header" />
 
         <Button
             android:id="@+id/followbutton"
@@ -138,14 +138,14 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:onClick="@{() -> viewModel.followButton()}"
             android:text="@string/follow_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/follow_button"
-            android:onClick="@{() -> viewModel.followButton()}"/>
-<!--        android.fadeVisible="@{!viewModel.showLoading}"-->
+            tools:text="@string/follow_button" />
+        <!--        android.fadeVisible="@{!viewModel.showLoading}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

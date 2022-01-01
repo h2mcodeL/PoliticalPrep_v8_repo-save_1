@@ -70,6 +70,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/election_date"
+            app:text="@{viewModel.selectedVoterInfo.election.name}"
             tools:text="Election Information - Wisconsin Presidential Primary" />
         <!--        android:text="@string/election_information"-->
         <!-- TODO: Add click binding to open web URL
@@ -145,6 +146,10 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/follow_button" />
+
+
+
+
         <!--        android.fadeVisible="@{!viewModel.showLoading}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -62,16 +63,37 @@ class DetailFragment : Fragment() {
         //TO DO: Define and assign Representative adapter
 
         binding.buttonSearch.setOnClickListener {
-            viewModel.getRepresentatives()
+           // viewModel.getRepresentatives()
+           // getLocationArea()
             hideKeyboard()
+            if (binding.addressLine1.text.trim().isNullOrEmpty() ||
+                    binding.city.text.trim().isNullOrEmpty() ||
+                    binding.zip.text.trim().isNullOrEmpty() ||
+                    binding.state.selectedItem.toString().trim().isNullOrEmpty())
+            {
+                Toast.makeText(requireContext(), "Fill all erquired gaps", Toast.LENGTH_SHORT)
+                        .show()
+            } else {
+                viewModel.getAddressFromGeoLocation(
+                        Address(
+                                line1 = binding.addressLine1.text.toString(),
+                                line2 = binding.addressLine2.text.toString(),
+                                city = binding.city.text.toString(),
+                                state = binding.state.selectedItem.toString(),
+                                zip = binding.zip.text.toString()
+
+                        )
+                )
+            }
         }
         //TO DO: Establish button listeners for field and location search
         binding.buttonLocation.setOnClickListener {
-            if(checkLocationPermissions()) {        //check location permnissions enabled
+          // ---  if(checkLocationPermissions()) {        //check location permnissions enabled
             getLocation()
-        } else {
-            checkLocationPermissions()
-            }}
+            //    getLocationArea()
+      //----  } else {
+          //----  checkLocationPermissions() }
+     }
 
         //create adapter for recyclerview, then bind to the recycler in the xml layout
         val repsAdapter = RepresentativeListAdapter()
@@ -156,10 +178,31 @@ class DetailFragment : Fragment() {
             } } }
         else {
             isPermissionGranted()
+            Toast.makeText(requireContext(), "Are permissions granted.", Toast.LENGTH_SHORT)
+                    .show()
         }
     }
 
-/**    private fun enableLocation() { try the one above
+    @SuppressLint("MissingPermission")
+    private fun getLocationArea() {
+        if (checkLocationPermissions()) {
+            LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation.addOnSuccessListener {
+                if (it == null) {
+                    Toast.makeText(requireContext(), "Error with getting location.", Toast.LENGTH_SHORT)
+                            .show()
+                } else {
+                    viewModel.getAddressFromGeoLocation(getGeoLocation(it))
+                }
+            }
+        } else {
+            requestPermissions(
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_LOCATION_PERMISSION)
+        }
+    }
+
+
+    /**    private fun enableLocation() { try the one above
         if (isPermissionGranted()) {
             if (ActivityCompat.checkSelfPermission(requireContext(),
                     android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&

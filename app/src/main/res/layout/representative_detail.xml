@@ -8,9 +8,9 @@
             name="representative"
             type="com.example.android.politicalpreparedness.representative.model.Representative" />
 
-        <variable
-            name="clickListener"
-            type="com.example.android.politicalpreparedness.representative.adapter.RepresentativeClickListener"/>
+<!--        <variable-->
+<!--            name="clickListener"-->
+<!--            type="com.example.android.politicalpreparedness.representative.adapter.RepresentativeClickListener"/>-->
 
         <variable
             name="repPhoto"
@@ -20,9 +20,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onClick(representative)}"
-        >
+        android:layout_height="wrap_content">
+<!--        android:onClick="@{() -> clickListener.onClick(representative)}"-->
+<!--        >-->
 
         <ImageView
             android:id="@+id/representativePhoto"
@@ -57,8 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toStartOf="@+id/wwwIcon"
-            app:layout_constraintStart_toStartOf="@+id/position"
-            app:layout_constraintTop_toBottomOf="@+id/position"
+            app:layout_constraintStart_toStartOf="@+id/representative_position"
+            app:layout_constraintTop_toBottomOf="@+id/representative_position"
             tools:text="Peter Jones" />
 <!--        android:text="TextView"-->
 

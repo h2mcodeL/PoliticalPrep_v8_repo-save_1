@@ -6,6 +6,8 @@ import android.widget.Spinner
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.example.android.politicalpreparedness.R
 
 @BindingAdapter("profileImage")
@@ -13,11 +15,22 @@ fun fetchImage(view: ImageView, src: String?) {
     src?.let {
         val uri = src.toUri().buildUpon().scheme("https").build()
         //TO DO complete: Add Glide call to load image and circle crop - user ic_profile as a placeholder and for errors.
-        Glide.with(view.context)
+        Glide.with(view)
                 .load(uri)
-                .placeholder(R.drawable.ic_profile)
-                .circleCrop()
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.ic_profile)
+                                .error(R.drawable.ic_profile)
+                                .circleCrop()
+                )
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view)
+
+//        Glide.with(view.context)
+//                .load(uri)
+//                .placeholder(R.drawable.ic_profile)
+//                .circleCrop()
+//                .into(view)
     }
 }
 

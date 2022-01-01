@@ -43,14 +43,6 @@ class ElectionsFragment : Fragment() {
         //binding observes livedata updates in the viewmodel
         binding.lifecycleOwner = this
 
-//alternative method
-//        val elecAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener { click -> click })
-//        binding.upcomingElectionsList.adapter = elecAdapter
-//
-//        electViewModel.upcomingElections.observe(viewLifecycleOwner, Observer {
-//            it?.let { elecAdapter.submitList(it) }
-//        })
-
         //TO DO: Initiate recycler adapters. We use the binding to link the adapter to the recycler view
         binding.upcomingElectionsList.adapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
             it.let {
@@ -67,7 +59,7 @@ class ElectionsFragment : Fragment() {
 
             }
         })
-
+        
 //need to work more on this
         //SAVED ELECTIONS
         binding.savedElectionsList.adapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener { //electionFollowed ->

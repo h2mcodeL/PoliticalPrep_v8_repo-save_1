@@ -42,14 +42,13 @@ private val retrofit = Retrofit.Builder()
 
 interface CivicsApiService {
     @GET("elections")
-    suspend fun getElectionResults(
-            // do not supply a request body with this method
+    suspend fun getElectionResults( // do not supply a request body with this method
     ): ElectionResponse
 
     //TO DO: Add voterinfo API Call -  refer to google civics parameters address, electionId
     @GET("voterinfo")   //"voterinfo" as required for http request
     suspend fun getVoterInfo(
-            @Query("address") address: String,
+            @Query("address") address: String,  //this is throwing an error. Check on civics api
             @Query("electionId") electionId: Int): VoterInfoResponse     //deferred added here
 
     //TO DO: Add representatives API Call

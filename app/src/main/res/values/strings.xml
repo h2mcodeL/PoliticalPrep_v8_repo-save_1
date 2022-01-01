@@ -5,7 +5,7 @@
  THIS IS THE CURRENT VERSION ____ save_4
  24.12.21
 
- project stages complete
+project stages complete
 Version 8 -
 Navigates to the detailed election view.
 Shows the saved elections, though these are actually all uploaded elections need to correct.
@@ -162,6 +162,8 @@ Does the application provide a coherent user experience that effectively and int
     <string name="ballot_locations">Ballot Locations</string>
     <string name="posting_vote">Image of a posting vote</string>
     <string name="representatives_search">Representatives Search</string>
+    <string name="my_representatives">My Representatives:</string>
+    <string name="city">City</string>
 
 
 </resources>

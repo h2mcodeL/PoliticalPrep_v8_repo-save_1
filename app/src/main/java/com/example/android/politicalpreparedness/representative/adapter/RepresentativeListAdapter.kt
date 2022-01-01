@@ -36,7 +36,7 @@ class RepresentativeListAdapter : ListAdapter<Representative, RepresentativeView
      */
 
 //we create the repVH class with dataBinding as a parameter
-    class RepresentativeViewHolder(/*private val*/ var binding: RepresentativeDetailBinding) : RecyclerView.ViewHolder(binding.root) {
+    class RepresentativeViewHolder(var binding: RepresentativeDetailBinding) : RecyclerView.ViewHolder(binding.root) {
         //this binding links to the xml representative view
         //click listener added
         fun bind(/*clickListener: RepresentativeClickListener,*/ item: Representative) {
@@ -114,18 +114,18 @@ class RepresentativeListAdapter : ListAdapter<Representative, RepresentativeView
     class RepresentativeDiffCallback : DiffUtil.ItemCallback<Representative>() {
         override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
             //  return oldItem == newItem
-            return (oldItem.official == newItem.official)// && oldItem.office == newItem.office)
+            return (oldItem.official.name == newItem.official.name)// && oldItem.office == newItem.office)
         }
 
         override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
-            return oldItem.office == newItem.office
-            //try  return oldItem == newItem
+          //  return oldItem.office == newItem.office
+            /*try*/  return oldItem == newItem
         }
     }
 
     //TO DO: Create RepresentativeListener
-    class RepresentativeClickListener(val clickListener: (representative: Representative) -> Unit) {
-        fun onClick(representative: Representative) = clickListener(representative)
-    }
+//    class RepresentativeClickListener(val clickListener: (representative: Representative) -> Unit) {
+//        fun onClick(representative: Representative) = clickListener(representative)
+//    }
 //}
 

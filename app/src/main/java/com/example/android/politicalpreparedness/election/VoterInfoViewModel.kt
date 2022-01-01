@@ -33,7 +33,7 @@ class VoterInfoViewModel(private val database: ElectionDao,
 //     val election : LiveData<Election>
 //     get() = _election
 
-    private val _followedElection = MutableLiveData<Boolean>(true)
+    private val _followedElection = MutableLiveData<Boolean>()//true)
     val followedElection: LiveData<Boolean>
         get() = _followedElection
 
@@ -114,7 +114,6 @@ class VoterInfoViewModel(private val database: ElectionDao,
         _voterLocations.value = null
     }
 
-    //check this data type
     fun ballotInformationClick() {
         if (_selectedVoterInfo.value != null) {
             _ballotInformation.value = _selectedVoterInfo.value?.state?.get(0)?.electionAdministrationBody?.ballotInfoUrl
@@ -128,45 +127,22 @@ class VoterInfoViewModel(private val database: ElectionDao,
         _ballotInformation.value = null
     }
 
-//     private fun initializeFollowElection() {
-//         viewModelScope.launch {
-//             _followedElection.value = getElectionFromDatabase()
-//         }
-//     }
-
-    //getting the data from a suspend function prevents the app crashing
-//     private suspend fun getElectionFromDatabase(): Election? {
-//             return withContext(Dispatchers.IO) {
-//         var election = database1.electionDao.getElection()
-//         if (election?.id != null) {
-//             election = null
-//         }
-//          return@withContext election
-//     }}
-
 
     //TO DO: Populate voter info -- hide views without provided data.
     /**
     Hint: You will need to ensure proper data is provided from previous fragment.
      */
-//     private fun unfollowElection(id: Int) {
-//         Log.i("Unfollow", "Print Message")
-//         if (isElectionFollowed.value == true)
-//         viewModelScope.launch {
-//             withContext(Dispatchers.IO) {
-//                 dao.unfollowElection(electionId)
-//             }
-//         }
-//     }
-
 
     fun followButton() {
         viewModelScope.launch {
+
             if (_followedElection.value != null) {
-                database.unfollowElection(electionId)
+               // database.unfollowElection(electionId)
+                   electionsRepository.unfollowElection(electionId)
                 Log.i("FOLLOW ELECTION", "$electionId")
             } else {
                 electionsRepository.saveElection(electionId)
+
             }
         }
     }

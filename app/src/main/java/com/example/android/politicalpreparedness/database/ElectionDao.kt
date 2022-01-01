@@ -16,13 +16,9 @@ interface ElectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(election: Election)
 
-
-    //type 1 - this is for the
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFollowedElection(followedElection: FollowedElection)
 
-    //  @Query ("SELECT id FROM election_table WHERE EXISTS(SELECT 1 FROM follow_election_table WHERE election_table.id == follow_election_table.followId)")
-    //@Query("SELECT IF EXISTS (SELECT 1 FROM follow_election_table WHERE id = "id")")  //try this
     @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE followId = :id)")
     fun isElectionFollowed(id: Int): LiveData<Boolean>
 
@@ -38,8 +34,7 @@ interface ElectionDao {
     fun getFollowedElections(): LiveData<List<Election>>
 
     //use SQL case examples - if followId is NULL then 0, else it is 1 and END. use follow table
-    //   @Query("SELECT CASE followId WHEN NULL THEN 0 ELSE 1 END FROM follow_election_table WHERE followId = :electionID")
-    //  fun isElectionFollowed(electionID: Int): LiveData<Int>
+    //try Foreign key for the follow button
 
     //Get election when id matches.
     @Query("SELECT * from election_table WHERE id = :key")
@@ -48,16 +43,6 @@ interface ElectionDao {
     //TO DO: Add select single election query
     @Query("SELECT * FROM election_table ORDER BY id DESC LIMIT 1")
     fun getElection(): Election?
-
-    //TO DO: Add delete query
-//    @Query("DELETE FROM election_table")
-//     fun clear()
-
-    //clear up database for the followed elections
-    @Query("DELETE FROM follow_election_table") //WHERE followId = :key")
-    //unfollowElection(key.id)
-    fun clear()
-
 
     //method for passing the followed Election id
     @Query("INSERT INTO follow_election_table (followId) VALUES (:electionID)")
@@ -74,15 +59,11 @@ interface ElectionDao {
     @Query("DELETE FROM follow_election_table")
     suspend fun clearFollowed()
 
-    @Query("DELETE FROM election_table WHERE id =:electionID")
-    suspend fun deleteElections(electionID: Int)
-
     //delete followed election
-
     @Query("DELETE FROM follow_election_table WHERE followId =:electionId")
-    suspend fun unfollowElection(electionId: Int)
-    suspend fun unfollowElection(election: Election) {
-        unfollowElection(election.id)
+    suspend fun unfollowElection(electionId: Int) {
+        unfollowElection(electionId)
+        clearFollowed()
     }
 
 }

@@ -48,11 +48,10 @@ class VoterInfoFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-
         //handle url loading
         viewModel.voterLocations.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                it?.let {
+                it.let {
                     loadUrl(it)     //call the url method
                     // viewModel.votingLocationsClick()   //clean up the navigation
                     viewModel.votingLocationsNavigated()      //voterLocationsNavigated()
@@ -65,7 +64,7 @@ class VoterInfoFragment : Fragment() {
 
         viewModel.ballotInformation.observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                it?.let {
+                it.let {
                     // Log.i("THE BALLOT URL", it)
                     loadUrl(it)
                     viewModel.ballotInformationClick()
@@ -75,8 +74,6 @@ class VoterInfoFragment : Fragment() {
                 Toast.makeText(context, "Sorry no URL", Toast.LENGTH_SHORT).show()
             }
         })
-
-        //TO DO: Add binding values
 
         //we need to get the election id from the electionFragment for use here
         //to use safeArgs, we need to add the arguments to the navGraph...
@@ -94,11 +91,12 @@ class VoterInfoFragment : Fragment() {
 
         viewModel.followedElection.observe(viewLifecycleOwner, Observer { isFollowed ->
             isFollowed?.let {
-                if (isFollowed) {
+                if (viewModel.followedElection.equals(true)) {
                     binding.followbutton.text = getString(R.string.unfollow_button)
-                    //binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))  nice colour change
+                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
                 } else {
                     binding.followbutton.text = getString(R.string.follow_button)
+                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
                 }
             }
         })

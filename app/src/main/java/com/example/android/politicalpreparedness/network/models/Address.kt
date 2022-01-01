@@ -2,7 +2,7 @@ package com.example.android.politicalpreparedness.network.models
 
 data class Address(
         val line1: String,
-        val line2: String? = null,
+        val line2: String? = null, //this line can be blank
         val city: String,
         val state: String,
         val zip: String

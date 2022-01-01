@@ -52,6 +52,7 @@ class ElectionsRepository(private val database: ElectionDatabase) {
                 Log.d(TAG, results.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.i("Result cannot be found", "No Result!!")
             }
         }
 

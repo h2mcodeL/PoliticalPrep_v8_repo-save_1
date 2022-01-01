@@ -151,16 +151,16 @@ class VoterInfoViewModel(private val database: ElectionDao,
 //     fun followElection() {
 //         viewModelScope.launch {
 //             if (database.isElectionFollowed(electionId).equals(true)) {
-//            // if (_followedElection.value!!) {
-//                 electionsRepository.unfollowElection(electionId)
+//                _followedElection.postValue(true)       //election is already followed
+//                 electionsRepository.unfollowElection(electionId)       //therefore unfollow
 //             } else {
-//                 electionsRepository.saveElection(electionId)
+//                 electionsRepository.saveElection(electionId)       //else follow the election
 //             //}
-//             _followedElection.value = electionsRepository.isSaved(election)   //need to create the function isSaved....
+//             //--_followedElection.value = electionsRepository.isSaved(election)   //need to create the function isSaved....
 //
 //         }
 //     }
-//
+
 
 
 }

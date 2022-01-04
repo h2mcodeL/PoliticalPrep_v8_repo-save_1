@@ -9,3 +9,8 @@ data class Division(
         val country: String,
         val state: String
 ) : Parcelable
+
+fun Division.toFormattedString(): String = listOf(state, country)
+        .filter {it.isNotEmpty() }
+        .joinToString (separator = ", ")
+

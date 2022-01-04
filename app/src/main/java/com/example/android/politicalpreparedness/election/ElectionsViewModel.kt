@@ -22,8 +22,9 @@ class ElectionsViewModel(
     private val savedElectionRepository = ElectionsRepository(database)
 
     val upcomingElections: LiveData<List<Election>>
-        get() = electionsRepository.allElections   //this needs to be a LiveData item
+        get() = electionsRepository.allElections
 
+    //get the list of elections that are followed in the db
     val electionFollowed: LiveData<List<Election>>
         get() = savedElectionRepository.allFollowedElections
 

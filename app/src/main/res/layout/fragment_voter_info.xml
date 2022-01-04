@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- the web url required relates to the upcoming election   -->
+    <!-- the web url required relates to the upcoming election -->
 
     <data>
         <!-- TO DO: Add data binding node for Voter Info ViewModel -->
@@ -40,11 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:title="@{viewModel.selectedVoterInfo.contests.toString()}"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/state_locations"
             app:layout_constraintTop_toTopOf="parent" />
+
+<!--        android:title="@{viewModel.selectedVoterInfo.contests.toString()}"-->
         <!--            app:title="@{viewModel.selectedVoterInfo.election.name.toString()}" />-->
 
 
@@ -78,8 +80,7 @@
         The text view is set to Voting Locations, viewmodel handles the link - -  state_header" -->
         <!-- TODO: Add visual styling and content -->
 
-
-        <!-- TODO: Add click binding to open web URL -->
+        <!-- TO DO: Add click binding to open web URL -->
         <!-- TODO: Add visual styling and content -->
 
         <TextView
@@ -146,8 +147,6 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/follow_button" />
-
-
 
 
         <!--        android.fadeVisible="@{!viewModel.showLoading}"-->

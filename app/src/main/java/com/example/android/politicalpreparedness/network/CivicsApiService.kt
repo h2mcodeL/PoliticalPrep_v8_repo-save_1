@@ -26,6 +26,7 @@ private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())        //this needs to be moved after the custom adapters.
         .build()
 
+
 //moshi converter
 private val retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
@@ -42,8 +43,7 @@ private val retrofit = Retrofit.Builder()
 
 interface CivicsApiService {
     @GET("elections")
-    suspend fun getElectionResults( // do not supply a request body with this method
-    ): ElectionResponse
+    suspend fun getElectionResults(): ElectionResponse   //do not supply a request body with this method
 
     //TO DO: Add voterinfo API Call -  refer to google civics parameters address, electionId
     @GET("voterinfo")   //"voterinfo" as required for http request

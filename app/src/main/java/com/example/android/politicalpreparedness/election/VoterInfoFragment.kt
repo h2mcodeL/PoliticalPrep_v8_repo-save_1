@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import kotlinx.android.synthetic.main.fragment_voter_info.*
 
 class VoterInfoFragment : Fragment() {
 
@@ -30,23 +31,24 @@ class VoterInfoFragment : Fragment() {
         //using this method we bind directly to the view using the binding reference
         val binding = FragmentVoterInfoBinding.inflate(inflater)
 
-        // binding.lifecycleOwner = this
+         //binding.lifecycleOwner = this
 
         //TO DO: Add ViewModel values and create ViewModel
         val dataSource = ElectionDatabase.getInstance(application).electionDao  //this gives access to teh DAO
 
-        val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())      //were using navigation safeArgs
-
+       // val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())      //were using navigation safeArgs
+        val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())   //.selectedElection
         val electionId = bundle.argElectionId
-        Log.i("The ElectionID", "$electionId")
         val division = bundle.argDivision
-        //this is created here as the parameters are above
+            Log.i("The ElectionID", "$electionId")
+
         val viewModelFactory = VoterInfoViewModelFactory(dataSource, electionId, division, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(VoterInfoViewModel::class.java)
 
-        binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        binding.lifecycleOwner = this
 
         //handle url loading
         viewModel.voterLocations.observe(viewLifecycleOwner, Observer {
@@ -61,6 +63,8 @@ class VoterInfoFragment : Fragment() {
                 Toast.makeText(context, "Sorry no URL", Toast.LENGTH_SHORT).show()
             }
         })
+
+        //ballot URL
 
         viewModel.ballotInformation.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -89,17 +93,41 @@ class VoterInfoFragment : Fragment() {
 
         //TO DO: Handle save button UI state     -- ###### refer to the loading button app
 
-        viewModel.followedElection.observe(viewLifecycleOwner, Observer { isFollowed ->
-            isFollowed?.let {
-                if (viewModel.followedElection.equals(true)) {
-                    binding.followbutton.text = getString(R.string.unfollow_button)
-                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
-                } else {
-                    binding.followbutton.text = getString(R.string.follow_button)
-                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
-                }
+        viewModel.followedElection.observe(viewLifecycleOwner, Observer {
+            when (it == true) {
+                viewModel.followedElection.equals(true) -> followbutton.text = getString(R.string.unfollow_button)
+                viewModel.followedElection.equals(false) -> followbutton.text = getString(R.string.follow_button)
             }
         })
+
+
+
+
+
+
+//        viewModel.followedElection.observe(viewLifecycleOwner, Observer { isFollowed ->
+//            isFollowed?.let {
+//                //using when is cleaner
+//                if (viewModel.followedElection.equals(true)) {
+//                    binding.followbutton.text = getString(R.string.unfollow_button)
+//                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
+//                } else {
+//                    binding.followbutton.text = getString(R.string.follow_button)
+//                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
+//                }
+//            }
+//        })
+
+
+
+//        viewModel.followedElection.observe(viewLifecycleOwner, Observer { //isFollowed ->
+//            when {
+//                //when button is already followed, unfollow
+//                viewModel.followedElection.equals(true) -> followbutton.text = resources.getText(R.string.unfollow_button)
+//                //when button is not followedf follow
+//                viewModel.followedElection.equals(false) -> followbutton.text = resources.getText(R.string.follow_button)
+//            }
+//        })
 
         //TO DO: cont'd Handle save button clicks
 

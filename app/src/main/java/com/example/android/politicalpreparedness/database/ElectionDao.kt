@@ -19,8 +19,8 @@ interface ElectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFollowedElection(followedElection: FollowedElection)
 
-    @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE followId = :id)")
-    fun isElectionFollowed(id: Int): LiveData<Boolean>
+    @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE id = :id)")
+    fun isElectionFollowed(id: Int): LiveData<Boolean> //<Int>
 
     @Update
     suspend fun update(election: Election)
@@ -45,7 +45,7 @@ interface ElectionDao {
     fun getElection(): Election?
 
     //method for passing the followed Election id
-    @Query("INSERT INTO follow_election_table (followId) VALUES (:electionID)")
+    @Query("INSERT INTO follow_election_table (id) VALUES (:electionID)")
     suspend fun followElection(electionID: Int)
     suspend fun followElection(election: Election) {
         followElection(election.id)
@@ -60,7 +60,7 @@ interface ElectionDao {
     suspend fun clearFollowed()
 
     //delete followed election
-    @Query("DELETE FROM follow_election_table WHERE followId =:electionId")
+    @Query("DELETE FROM follow_election_table WHERE id =:electionId")
     suspend fun unfollowElection(electionId: Int) {
         unfollowElection(electionId)
         clearFollowed()

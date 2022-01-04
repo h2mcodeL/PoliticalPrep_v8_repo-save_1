@@ -36,6 +36,13 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src/main/java', 'src/test/java'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -97,15 +104,11 @@ dependencies {
 
     //we are using material design to generate the button so. add the gradle dependency
     //material design
-    // implementation "com.google.android.material:material:1.5.0-alpha04"
-
+    // implementation "com.google.android.material:material:1.6.0-alpha01" // - recent change 2.1.22 still doesnt work
 
     //Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso-core:3.2.0'
-
-
-
 
 }

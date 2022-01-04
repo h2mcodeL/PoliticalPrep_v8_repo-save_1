@@ -2,10 +2,7 @@ package com.example.android.politicalpreparedness.election
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.database.ElectionDatabase.Companion.getInstance
 import com.example.android.politicalpreparedness.network.CivicsApi
@@ -13,7 +10,9 @@ import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import com.example.android.politicalpreparedness.repository.ElectionsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
 class VoterInfoViewModel(private val database: ElectionDao,
@@ -21,10 +20,9 @@ class VoterInfoViewModel(private val database: ElectionDao,
                          private val division: Division, application: Application) : ViewModel() {
 
     //TO DO: Add var and methods to populate voter info
-
     private val election: Election? = null
 
-    private val db = getInstance(application)
+    private val db = getInstance(application) //??
 
     //get access to repo
     private val electionsRepository = ElectionsRepository(db)
@@ -33,26 +31,29 @@ class VoterInfoViewModel(private val database: ElectionDao,
 //     val election : LiveData<Election>
 //     get() = _election
 
+
+
     private val _followedElection = MutableLiveData<Boolean>()//true)
     val followedElection: LiveData<Boolean>
-        get() = _followedElection
+        get() = database.isElectionFollowed(electionId)
+      //  get() = _followedElection
 
-    private val _followElection = MutableLiveData<Election?>()
-    val followElection: LiveData<Boolean>
-        get() = db.electionDao.isElectionFollowed(electionId)
+//    private val _followElection = MutableLiveData<Election?>()
+//    val followElection: LiveData<Boolean>
+//        get() = db.electionDao.isElectionFollowed(electionId)
 
     private val _selectedVoterInfo = MutableLiveData<VoterInfoResponse>()
     val selectedVoterInfo: LiveData<VoterInfoResponse>
         get() = _selectedVoterInfo
 
     //Live data for the voterlocation url link
-    private val _voterLocations = MutableLiveData<String>()
-    val voterLocations: LiveData<String>
+    private val _voterLocations = MutableLiveData<String?>()
+    val voterLocations: LiveData<String?>
         get() = _voterLocations
 
     //Live data for the ballot url link
-    private val _ballotInformation = MutableLiveData<String>()
-    val ballotInformation: LiveData<String>
+    private val _ballotInformation = MutableLiveData<String?>()
+    val ballotInformation: LiveData<String?>
         get() = _ballotInformation
 
     //this is used for the unfollow election
@@ -76,7 +77,6 @@ class VoterInfoViewModel(private val database: ElectionDao,
     init {
         getInfo()
         Log.i("Selected Info", "$selectedVoterInfo")
-        //  initializeFollowElection()
     }
 
     //get the voter info
@@ -87,7 +87,7 @@ class VoterInfoViewModel(private val database: ElectionDao,
                 address += if (division.state.isNotBlank() && division.state.isNotEmpty()) {
                     "/state:${division.state}"
                 } else {
-                    "/state:ca"
+                   address += "/state:ca"
                 }
                 _selectedVoterInfo.value = CivicsApi.retrofitService.getVoterInfo(
                         address, electionId)
@@ -128,6 +128,19 @@ class VoterInfoViewModel(private val database: ElectionDao,
     }
 
 
+
+
+    //this simply says, is the election followed its a LiveData. then using the getter, get it from the database
+   //---- private val _isElectionFollowed: LiveData<Int>
+   //------ get() = database.isElectionFollowed(electionId)
+
+   // private val isElectionFollowed = Transformations.map(_isElectionFollowed) { followElec ->
+    private val isElectionFollowed = Transformations.map(_followedElection) {followElection ->
+        followElection?.let {
+            followElection.equals(1)
+        }
+    }
+
     //TO DO: Populate voter info -- hide views without provided data.
     /**
     Hint: You will need to ensure proper data is provided from previous fragment.
@@ -135,26 +148,31 @@ class VoterInfoViewModel(private val database: ElectionDao,
 
     fun followButton() {
         viewModelScope.launch {
-
-            if (_followedElection.value != null) {
+            withContext(Dispatchers.IO) {
+                if(isElectionFollowed.value == true) {
+            //if (_followedElection.value != null) {
                // database.unfollowElection(electionId)
                    electionsRepository.unfollowElection(electionId)
                 Log.i("FOLLOW ELECTION", "$electionId")
             } else {
-                electionsRepository.saveElection(electionId)
+              //  electionsRepository.saveElection(electionId)
+                database.followElection(electionId)
 
             }
         }
     }
 
 //COMMENT OUT THIS FUNCTION AS ITS ACOPY OF THE ABOVE..
-//     fun followElection() {
+//     fun followButton() {
 //         viewModelScope.launch {
 //             if (database.isElectionFollowed(electionId).equals(true)) {
-//                _followedElection.postValue(true)       //election is already followed
+//                //_followedElection.setValue(true)       //election is already followed
+//                 _followedElection.postValue(true)
 //                 electionsRepository.unfollowElection(electionId)       //therefore unfollow
+//
 //             } else {
 //                 electionsRepository.saveElection(electionId)       //else follow the election
+//                 _followedElection.postValue(false)
 //             //}
 //             //--_followedElection.value = electionsRepository.isSaved(election)   //need to create the function isSaved....
 //
@@ -163,7 +181,7 @@ class VoterInfoViewModel(private val database: ElectionDao,
 
 
 
-}
+}}
 
 //TO DO: Add var and methods to support loading URLs
 

@@ -1,8 +1,8 @@
 package com.example.android.politicalpreparedness.repository
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
@@ -19,12 +19,13 @@ class ElectionsRepository(private val database: ElectionDatabase) {
 
     /*** Get the elections list from the local db, using the DAO. Its possibly a long running task so use dispatchers.IO*/
 
+    val upcomingElections = MutableLiveData<List<Election>>()
     //get all saved elections
     val allElections: LiveData<List<Election>> = database.electionDao.getAllElections()
 
+
     //all followed elections
     val allFollowedElections: LiveData<List<Election>> = database.electionDao.getFollowedElections()
-
 
     //save the selected election
     suspend fun saveElection(id: Int) {
@@ -41,21 +42,19 @@ class ElectionsRepository(private val database: ElectionDatabase) {
         }
     }
 
-
     suspend fun refreshElectionsList() {
         withContext(Dispatchers.IO) {
             try {
                 val elecResponses = CivicsApi.retrofitService.getElectionResults()
                 val results = elecResponses.elections
-                database.electionDao.insertAll(*results.toTypedArray()) //dao needs to be vararg elec: Election - not database
-                //  database.electionDao.insertAllElections(*result.toTypedArray()) //need to check on this
-                Log.d(TAG, results.toString())
+               // upcomingElections.postValue(elecResponses.elections)
+                database.electionDao.insertAll(*results.toTypedArray())
+               // Log.d(TAG, results.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.i("Result cannot be found", "No Result!!")
             }
         }
-
     }
 
     suspend fun refreshFollowElection() {
@@ -79,6 +78,5 @@ class ElectionsRepository(private val database: ElectionDatabase) {
     }
 
  */
-
 
 }

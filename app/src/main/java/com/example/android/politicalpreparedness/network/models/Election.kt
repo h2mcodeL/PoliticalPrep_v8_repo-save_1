@@ -9,10 +9,12 @@ import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-@Entity(tableName = "election_table")
+
 @Parcelize
+@Entity(tableName = "election_table")
 data class Election(
         @PrimaryKey(autoGenerate = true) val id: Int,
+       // @PrimaryKey val id: Int,
         @ColumnInfo(name = "name") val name: String,
         @ColumnInfo(name = "electionDay") val electionDay: Date,
         @Embedded(prefix = "division_") @Json(name = "ocdDivisionId") val division: Division
@@ -23,5 +25,5 @@ data class Election(
 //Table for followed elections
 @Entity(tableName = "follow_election_table")
 data class FollowedElection(
-        @PrimaryKey var id: Int)
+        @PrimaryKey var follow_id: Int)
 

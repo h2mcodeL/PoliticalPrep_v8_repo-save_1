@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
-import kotlinx.android.synthetic.main.fragment_voter_info.*
 
 class VoterInfoFragment : Fragment() {
 
@@ -91,46 +90,36 @@ class VoterInfoFragment : Fragment() {
 
         //TO DO: Handle loading of URLs
 
-        //TO DO: Handle save button UI state     -- ###### refer to the loading button app
+        //TO DO: Handle save button UI state
 
-        viewModel.followedElection.observe(viewLifecycleOwner, Observer {
-            when (it == true) {
-                viewModel.followedElection.equals(true) -> followbutton.text = getString(R.string.unfollow_button)
-                viewModel.followedElection.equals(false) -> followbutton.text = getString(R.string.follow_button)
+        viewModel.followedElection.observe(viewLifecycleOwner, Observer { isFollowed ->
+            isFollowed?.let {
+                //using when is cleaner
+             //   if (viewModel.followedElection.equals(true)) {
+                if (viewModel.isElectionFollowed.value == true) {
+                    binding.followbutton.text = getString(R.string.follow_button)
+                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
+
+                } else {
+                    viewModel.isElectionFollowed.value == false
+                    binding.followbutton.text = getString(R.string.unfollow_button)
+                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
+                }
             }
         })
 
-
-
-
-
-
-//        viewModel.followedElection.observe(viewLifecycleOwner, Observer { isFollowed ->
-//            isFollowed?.let {
-//                //using when is cleaner
-//                if (viewModel.followedElection.equals(true)) {
-//                    binding.followbutton.text = getString(R.string.unfollow_button)
-//                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
-//                } else {
-//                    binding.followbutton.text = getString(R.string.follow_button)
-//                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
-//                }
+//        viewModel.isElectionFollowed.observe(viewLifecycleOwner, Observer { followElection ->
+//            if (followElection.equals(true)) {
+//                binding.followbutton.text = getString(R.string.unfollow_button)
+//                // findNavController().navigate(VoterInfoFragmentDirections.actionVoterInfoFragmentToElectionsFragment())
+//            } else {
+//                binding.followbutton.text = getString(R.string.follow_button)
 //            }
 //        })
 
 
-
-//        viewModel.followedElection.observe(viewLifecycleOwner, Observer { //isFollowed ->
-//            when {
-//                //when button is already followed, unfollow
-//                viewModel.followedElection.equals(true) -> followbutton.text = resources.getText(R.string.unfollow_button)
-//                //when button is not followedf follow
-//                viewModel.followedElection.equals(false) -> followbutton.text = resources.getText(R.string.follow_button)
-//            }
-//        })
 
         //TO DO: cont'd Handle save button clicks
-
         return binding.root
 
     }
@@ -144,4 +133,3 @@ class VoterInfoFragment : Fragment() {
         startActivity(intent)
     }
 }
-

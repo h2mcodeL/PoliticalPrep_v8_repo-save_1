@@ -18,7 +18,6 @@ import com.example.android.politicalpreparedness.election.adapter.ElectionListAd
 class ElectionsFragment : Fragment() {
 
     private lateinit var electViewModel: ElectionsViewModel
-
     private lateinit var binding: FragmentElectionBinding
 
     private lateinit var electionsAdapter: ElectionListAdapter
@@ -46,26 +45,10 @@ class ElectionsFragment : Fragment() {
         //binding observes livedata updates in the viewmodel
         binding.lifecycleOwner = this
 
-        //TO DO: Initiate recycler adapters. We use the binding to link the adapter to the recycler view
-//            binding.upcomingElectionsList.adapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
-//                it.let {
-//                    electViewModel.displayElectionDetails(it)
-//                  //  Log.i("RecyclerList", "THE ELECTION LIST IS: - $it.name , $it.electionDay, $it.electionDay")
-//                }
-//            })
-//
-//            electViewModel.navigateToVoterInfo.observe(viewLifecycleOwner, Observer {
-//                if (null != it) {
-//                   // this.findNavController().navigate(ElectionsFragmentDirections.electionFragmentToVoterInfoFragment(it.id, it.division))
-//                       this.findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division, it))
-//                    electViewModel.displayElectionDetailsComplete()
-//                }
-//            })
-
         //Election list
         electionsAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
-            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division))//,it))
-            Log.i("CHECK DATA", "${it.id}, ${it.name}")//, ${it.division}")
+            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division))
+            Log.i("CHECK DATA", "${it.id}, ${it.name}")
         })
         binding.upcomingElectionsList.adapter = electionsAdapter
 
@@ -76,10 +59,9 @@ class ElectionsFragment : Fragment() {
         })
 
 
-
         //SAVED ELECTIONS
         savedElectionsAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
-            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division))//, it))
+            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division))
         })
 
         binding.savedElectionsList.adapter = savedElectionsAdapter
@@ -90,14 +72,6 @@ class ElectionsFragment : Fragment() {
             }
         })
 
-//        binding.savedElectionsList.adapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener { //electionFollowed ->
-//            it.let {
-//                if (electViewModel.electionFollowed.equals(true)) {
-//                //electViewModel.delete(it.id)
-//                electViewModel.displaySavedElection(it)
-//            }
-//        }})
-//
 //        //TO DO: Refresh adapters when fragment loads
 //        binding.refreshLayout.setOnRefreshListener { electViewModel.refreshList() }
 

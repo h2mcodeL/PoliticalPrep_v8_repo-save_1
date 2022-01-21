@@ -8,7 +8,7 @@ import com.example.android.politicalpreparedness.network.models.FollowedElection
 @Dao
 interface ElectionDao {
 
-    //allows all elections to be saved to db
+    //allows all elections to be saved to db, used with the elections repo
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg elections: Election)
 
@@ -19,7 +19,7 @@ interface ElectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFollowedElection(followedElection: FollowedElection)
 
-    @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE id = :id)")
+    @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE follow_id = :id)")
     fun isElectionFollowed(id: Int): LiveData<Boolean> //<Int>
 
     @Update
@@ -45,7 +45,7 @@ interface ElectionDao {
     fun getElection(): Election?
 
     //method for passing the followed Election id
-    @Query("INSERT INTO follow_election_table (id) VALUES (:electionID)")
+    @Query("INSERT INTO follow_election_table (follow_id) VALUES (:electionID)")
     suspend fun followElection(electionID: Int)
     suspend fun followElection(election: Election) {
         followElection(election.id)
@@ -60,10 +60,15 @@ interface ElectionDao {
     suspend fun clearFollowed()
 
     //delete followed election
-    @Query("DELETE FROM follow_election_table WHERE id =:electionId")
+    @Query("DELETE FROM follow_election_table WHERE follow_id =:electionId")
     suspend fun unfollowElection(electionId: Int) {
         unfollowElection(electionId)
-        clearFollowed()
+        //clearFollowed()
+        clearAllElections()
     }
+// ----- this method simply checks if the election is followed
+//the case expression is similar to the IF-THEN-ELSE statement
+    @Query("SELECT CASE follow_id WHEN NULL THEN 0 ELSE 1 END FROM follow_election_table WHERE follow_id =:idElection")
+    fun isElectionsFollowed(idElection: Int): LiveData<Int>
 
 }

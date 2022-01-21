@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Election
-import com.example.android.politicalpreparedness.network.models.FollowedElection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,19 +27,19 @@ class ElectionsRepository(private val database: ElectionDatabase) {
     val allFollowedElections: LiveData<List<Election>> = database.electionDao.getFollowedElections()
 
     //save the selected election
-    suspend fun saveElection(id: Int) {
-        withContext(Dispatchers.IO) {
-            val followed = FollowedElection(id)
-            database.electionDao.insertFollowedElection(followed)
-        }
-    }
-
-  //  suspend fun unfollowElection(election: Election) {
-    suspend fun unfollowElection(id: Int) {
-        withContext(Dispatchers.IO) {
-            database.electionDao.unfollowElection(id)       //(election.id)
-        }
-    }
+//    suspend fun saveElection(id: Int) {
+//        withContext(Dispatchers.IO) {
+//            val followed = FollowedElection(id)
+//            database.electionDao.insertFollowedElection(followed)
+//        }
+//    }
+//
+//  //  suspend fun unfollowElection(election: Election) {
+//    suspend fun unfollowElection(id: Int) {
+//        withContext(Dispatchers.IO) {
+//            database.electionDao.unfollowElection(id)       //(election.id)
+//        }
+//    }
 
     suspend fun refreshElectionsList() {
         withContext(Dispatchers.IO) {

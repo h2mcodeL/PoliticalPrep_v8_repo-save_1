@@ -10,8 +10,6 @@ import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.repository.ElectionsRepository
 import kotlinx.coroutines.launch
 
-//TO DO: Construct ViewModel and provide election datasource
-//use data injection to access database.
 
 class ElectionsViewModel(
         val database: ElectionDatabase, application: Application) : AndroidViewModel(application) {
@@ -42,22 +40,9 @@ class ElectionsViewModel(
     val savedElection: LiveData<Election>
         get() = _savedElection
 
-//    //create livedata for the election to follow
-//    private val _followElection = MutableLiveData<Election>()
-//    val followElection: LiveData<List<Election>>
-//        get() = electionsRepository.followedElections
-
     init {
         viewModelScope.launch {
             electionsRepository.refreshElectionsList()
-            refreshList()
-        }
-    }
-
-    fun refreshList() {
-        viewModelScope.launch {
-            electionsRepository.refreshElectionsList()
-            savedElectionRepository.refreshFollowElection()
         }
     }
 
@@ -86,6 +71,14 @@ class ElectionsViewModel(
 
     fun displaySavedElectionComplete() {
         _savedElection.value = null
+    }
+
+    //recent edit check
+    private fun checkForSavedElection() {
+        viewModelScope.launch {
+            //_savedElection.value = followThisElection()
+            electionFollowed
+        }
     }
 
 

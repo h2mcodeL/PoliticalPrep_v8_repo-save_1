@@ -22,25 +22,17 @@ class VoterInfoViewModel(private val database: ElectionDao,
     //TO DO: Add var and methods to populate voter info
     private val election: Election? = null
 
-    private val db = getInstance(application) //??
+    private val db = getInstance(application)
 
     //get access to repo
-    private val electionsRepository = ElectionsRepository(db)
-
-//     private val _election = MutableLiveData<Election>()
-//     val election : LiveData<Election>
-//     get() = _election
+    private val electionsRepository = ElectionsRepository(db)       //this is not being used
 
 
-
-    private val _followedElection = MutableLiveData<Boolean>()//true)
-    val followedElection: LiveData<Boolean>
-        get() = database.isElectionFollowed(electionId)
+    private val _followedElection = MutableLiveData<Int>()     //<Boolean>()//true)
+    val followedElection: LiveData<Int>      //<Boolean>
+        //get() = database.isElection_Followed(electionId)
+        get() = database.isElectionsFollowed(electionId)
       //  get() = _followedElection
-
-//    private val _followElection = MutableLiveData<Election?>()
-//    val followElection: LiveData<Boolean>
-//        get() = db.electionDao.isElectionFollowed(electionId)
 
     private val _selectedVoterInfo = MutableLiveData<VoterInfoResponse>()
     val selectedVoterInfo: LiveData<VoterInfoResponse>
@@ -84,8 +76,10 @@ class VoterInfoViewModel(private val database: ElectionDao,
         viewModelScope.launch {
             try {
                 var address = "country:${division.country}"
-                address += if (division.state.isNotBlank() && division.state.isNotEmpty()) {
-                    "/state:${division.state}"
+                //address += if (division.state.isNotBlank() && division.state.isNotEmpty()) {    //dont pass address here
+                if (!division.state.isBlank() && !division.state.isEmpty()) {
+                    //"/state:${division.state}"
+                    address += "/state:${division.state}"
                 } else {
                    address += "/state:ca"
                 }
@@ -131,11 +125,12 @@ class VoterInfoViewModel(private val database: ElectionDao,
 
 
     //this simply says, is the election followed its a LiveData. then using the getter, get it from the database
-   //---- private val _isElectionFollowed: LiveData<Int>
-   //------ get() = database.isElectionFollowed(electionId)
+   // private val _isElectionFollowed: LiveData<Int>
+    val isElectionFollowed: LiveData<Boolean>
+    get() = database.isElectionFollowed(electionId)
 
-   // private val isElectionFollowed = Transformations.map(_isElectionFollowed) { followElec ->
-    private val isElectionFollowed = Transformations.map(_followedElection) {followElection ->
+
+    private val _isElectionFollowed = Transformations.map(_followedElection) { followElection ->
         followElection?.let {
             followElection.equals(1)
         }
@@ -150,38 +145,50 @@ class VoterInfoViewModel(private val database: ElectionDao,
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 if(isElectionFollowed.value == true) {
-            //if (_followedElection.value != null) {
-               // database.unfollowElection(electionId)
-                   electionsRepository.unfollowElection(electionId)
-                Log.i("FOLLOW ELECTION", "$electionId")
-            } else {
-              //  electionsRepository.saveElection(electionId)
-                database.followElection(electionId)
+                     //  database.unfollowElection(electionId)
+                         database.clearFollowed()
+                    Log.i("UNFOLLOW ELECTION", "$electionId")
+                } else {
+                    database.followElection(electionId)
+                    Log.i("FOLLOW ELECTION", "$electionId")
+                }}}}
 
-            }
-        }
-    }
+
+
+//    fun followButton() {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                if(isElectionFollowed.value == true) {
+//            //if (_followedElection.value != null) {
+//               // database.unfollowElection(electionId)
+//                   electionsRepository.unfollowElection(electionId)
+//                Log.i("FOLLOW ELECTION", "$electionId")
+//            } else {
+//              //  electionsRepository.saveElection(electionId)
+//                database.followElection(electionId)
+//            }}}}
+
+
 
 //COMMENT OUT THIS FUNCTION AS ITS ACOPY OF THE ABOVE..
 //     fun followButton() {
 //         viewModelScope.launch {
+//             withContext(Dispatchers.IO) {
 //             if (database.isElectionFollowed(electionId).equals(true)) {
 //                //_followedElection.setValue(true)       //election is already followed
-//                 _followedElection.postValue(true)
+//               //  followedElection.getValue(true)
 //                 electionsRepository.unfollowElection(electionId)       //therefore unfollow
 //
 //             } else {
 //                 electionsRepository.saveElection(electionId)       //else follow the election
-//                 _followedElection.postValue(false)
+//              //   followedElection.postValue(false)
 //             //}
 //             //--_followedElection.value = electionsRepository.isSaved(election)   //need to create the function isSaved....
 //
 //         }
-//     }
-
-
-
-}}
+//     }}
+//}
+                         }
 
 //TO DO: Add var and methods to support loading URLs
 

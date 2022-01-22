@@ -78,5 +78,13 @@ class ElectionsViewModel(
         }
     }
 
+    //recent edit check
+    private fun checkForSavedElection() {
+        viewModelScope.launch {
+            //_savedElection.value = followThisElection()
+            electionFollowed
+        }
+    }
+
 
 }

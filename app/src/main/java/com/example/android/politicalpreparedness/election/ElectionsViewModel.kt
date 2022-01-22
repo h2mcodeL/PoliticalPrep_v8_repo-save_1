@@ -10,7 +10,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.repository.ElectionsRepository
 import kotlinx.coroutines.launch
 
-
+//update git rebase
 class ElectionsViewModel(
         val database: ElectionDatabase, application: Application) : AndroidViewModel(application) {
 
@@ -78,13 +78,7 @@ class ElectionsViewModel(
         }
     }
 
-    //recent edit check
-    private fun checkForSavedElection() {
-        viewModelScope.launch {
-            //_savedElection.value = followThisElection()
-            electionFollowed
-        }
-    }
+
 
 
 }

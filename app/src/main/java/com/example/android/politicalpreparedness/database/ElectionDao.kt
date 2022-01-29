@@ -5,6 +5,8 @@ import androidx.room.*
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.FollowedElection
 
+
+//TODO remove queries that are bloat.
 @Dao
 interface ElectionDao {
 
@@ -46,8 +48,8 @@ interface ElectionDao {
     suspend fun getSelectedElection(key: Int): Election?
 
     //TO DO: Add select single election query
-    @Query("SELECT * FROM election_table ORDER BY id DESC LIMIT 1")
-    fun getElection(): Election?
+//    @Query("SELECT * FROM election_table ORDER BY id DESC LIMIT 1")
+//    fun getElection(): Election?
 
     //method for passing the followed Election id
     @Query("INSERT INTO follow_election_table (follow_id) VALUES (:electionID)")
@@ -68,12 +70,11 @@ interface ElectionDao {
     @Query("DELETE FROM follow_election_table WHERE follow_id =:electionId")
     suspend fun unfollowElection(electionId: Int) {
         unfollowElection(electionId)
-      //  clearAllElections()
+       // clearAllElections()
     }
 
 
 //the case expression is similar to the IF-THEN-ELSE statement
     @Query("SELECT CASE follow_id WHEN NULL THEN 0 ELSE 1 END FROM follow_election_table WHERE follow_id =:idElection")
     fun isElectionsFollowed(idElection: Int): LiveData<Int>
-
 }

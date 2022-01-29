@@ -97,11 +97,11 @@ class VoterInfoFragment : Fragment() {
                 //using when is cleaner
              //   if (viewModel.followedElection.equals(true)) {
                 if (viewModel.isElectionFollowed.value == true) {
+                //if (viewModel.isElectionsFollowed.value)
                     binding.followbutton.text = getString(R.string.follow_button)
                     binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
 
                 } else {
-                    viewModel.isElectionFollowed.value == false
                     binding.followbutton.text = getString(R.string.unfollow_button)
                     binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
                 }

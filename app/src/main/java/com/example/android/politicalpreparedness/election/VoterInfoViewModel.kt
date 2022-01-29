@@ -131,12 +131,11 @@ class VoterInfoViewModel(private val database: ElectionDao,
 
 
     //this simply says, is the election followed its a LiveData. then using the getter, get it from the database
-    private val _isElectionFollowed = MutableLiveData<Int>()
+ //----   private val _isElectionFollowed = MutableLiveData<Int>() // not required
     val isElectionFollowed: LiveData<Boolean>
         get() = database.isElectionFollowed(electionId)
 
-
-//    private val _isElectionsFollowed = Transformations.map(_followedElection) { followElection ->
+//    private val _isElectionsFollowed = Transformations.map(_isElectionFollowed) { followElection ->      //(_followedElection) { followElection ->
 //        followElection?.let {
 //            followElection.equals(1)
 //        }
@@ -147,17 +146,18 @@ class VoterInfoViewModel(private val database: ElectionDao,
     Hint: You will need to ensure proper data is provided from previous fragment.
      */
 
+    //need to resolve issue with Constaint value
     fun followButton() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                //if (_isElectionFollowed.value == true) {
                 if (isElectionFollowed.value == true) {
-                   //  database.clearFollowed()
+                //if (_isElectionsFollowed.value == true) {
+                   //----  database.clearFollowed()
                         database.unfollowElection(electionId)
                     Log.i("UNFOLLOW ELECTION", "$electionId")
                 } else {
-
                     database.followElection(electionId)
+                    //isElectionFollowed.value?.equals(false)  check if mutable item needs to be set.
                     Log.i("FOLLOW ELECTION", "$electionId")
                 }
             }

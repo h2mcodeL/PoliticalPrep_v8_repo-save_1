@@ -27,20 +27,19 @@ class VoterInfoFragment : Fragment() {
         //reference to the application that this fragment is attached to
         val application = requireNotNull(this.activity).application
 
-        //using this method we bind directly to the view using the binding reference
+        //using this method we bind directly to the view using the binding reference, and view binding
         val binding = FragmentVoterInfoBinding.inflate(inflater)
-
-         //binding.lifecycleOwner = this
 
         //TO DO: Add ViewModel values and create ViewModel
         val dataSource = ElectionDatabase.getInstance(application).electionDao  //this gives access to teh DAO
 
-       // val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())      //were using navigation safeArgs
         val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())   //.selectedElection
         val electionId = bundle.argElectionId
         val division = bundle.argDivision
             Log.i("The ElectionID", "$electionId")
 
+        //the voterInfo screen shows information on a single instance, therefore the viewmodel when created need to have access to
+        //the data on that instance.hence the use of the factory
         val viewModelFactory = VoterInfoViewModelFactory(dataSource, electionId, division, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(VoterInfoViewModel::class.java)
@@ -108,20 +107,17 @@ class VoterInfoFragment : Fragment() {
             }
         })
 
-//        viewModel.isElectionFollowed.observe(viewLifecycleOwner, Observer { followElection ->
-//            if (followElection.equals(true)) {
-//                binding.followbutton.text = getString(R.string.unfollow_button)
-//                // findNavController().navigate(VoterInfoFragmentDirections.actionVoterInfoFragmentToElectionsFragment())
-//            } else {
-//                binding.followbutton.text = getString(R.string.follow_button)
-//            }
-//        })
-
+        viewModel.isElectionFollowed.observe(viewLifecycleOwner, Observer { followElection ->
+            if (followElection.equals(true)) {
+                binding.followbutton.text = getString(R.string.unfollow_button)
+            } else {
+                binding.followbutton.text = getString(R.string.follow_button)
+            }
+        })
 
 
         //TO DO: cont'd Handle save button clicks
         return binding.root
-
     }
 
     //TO DO: Create method to load URL intents

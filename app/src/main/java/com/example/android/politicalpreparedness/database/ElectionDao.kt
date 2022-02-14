@@ -1,12 +1,14 @@
 package com.example.android.politicalpreparedness.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.FollowedElection
 
-
-//TODO remove queries that are bloat.
+//TO DO remove queries that are bloat.
 @Dao
 interface ElectionDao {
 
@@ -14,21 +16,18 @@ interface ElectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg elections: Election)
 
-    //TO DO: Add insert query
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(election: Election)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFollowedElection(followedElection: FollowedElection)
 
     //Is Election Followed CHECK 1 ---
+   // @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE follow_id = :id)")
     @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE follow_id = :id)")
     fun isElectionFollowed(id: Int): LiveData<Boolean>
 
-    @Update
-    suspend fun update(election: Election)
+//    @Update
+//    suspend fun update(election: Election)
 
-    //TO DO: Add select all election query
+    //Get all elections from this query
     @Query("SELECT * FROM election_table ORDER BY electionDay DESC")
     fun getAllElections(): LiveData<List<Election>>
 
@@ -36,28 +35,30 @@ interface ElectionDao {
   //  @Query("SELECT * FROM election_table WHERE id in (SELECT id follow_election_table) ORDER BY electionDay DESC")
   //  fun getFollowedElections(): LiveData<List<Election>>
 
-    @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE  follow_id == id /*follow_id*/) ORDER BY electionDay DESC")
+    //this one gets the elections only for the upcoming elecs. Dont use the one above
+    @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE follow_id == id ) ORDER BY electionDay DESC")
+  //  @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE id == id /*follow_id*/) ORDER BY electionDay DESC")
     fun getFollowedElections(): LiveData<List<Election>>
 
 
-    //use SQL case examples - if followId is NULL then 0, else it is 1 and END. use follow table
-    //try Foreign key for the follow button
 
     //Get election when id matches.
-    @Query("SELECT * from election_table WHERE id = :key")
-    suspend fun getSelectedElection(key: Int): Election?
+ //        @Query("SELECT * from election_table WHERE id = :key")
+  //          suspend fun getSelectedElection(key: Int): Election?
 
+    //WHAT IS THIS FOR??
     //TO DO: Add select single election query
-//    @Query("SELECT * FROM election_table ORDER BY id DESC LIMIT 1")
-//    fun getElection(): Election?
+    @Query("SELECT * FROM election_table ORDER BY id DESC LIMIT 1")
+    fun getElection(): Election?
 
-    //method for passing the followed Election id
-    @Query("INSERT INTO follow_election_table (follow_id) VALUES (:electionID)")
-    suspend fun followElection(electionID: Int)
-    suspend fun followElection(election: Election) {
-        followElection(election.id)
-        followElection(election)
-    }
+    // ---- method for passing the followed Election id -- TRY THIS ANOTHER WAY
+//    @Query("INSERT INTO follow_election_table (follow_id) VALUES (:electionID)")
+//    suspend fun followElection(electionID: Int)
+//    suspend fun followElection(election: Election) {
+//        followElection(election.id)
+//        followElection(election)
+//    }
+
 
     //TO DO: Add clear query
     @Query("DELETE FROM election_table")
@@ -67,14 +68,15 @@ interface ElectionDao {
     suspend fun clearFollowed()
 
     //delete followed election
+    //@Query("DELETE FROM follow_election_table WHERE follow_id =:electionId")
     @Query("DELETE FROM follow_election_table WHERE follow_id =:electionId")
     suspend fun unfollowElection(electionId: Int) {
         unfollowElection(electionId)
        // clearAllElections()
     }
 
-
 //the case expression is similar to the IF-THEN-ELSE statement
+    //@Query("SELECT CASE follow_id WHEN NULL THEN 0 ELSE 1 END FROM follow_election_table WHERE follow_id =:idElection")
     @Query("SELECT CASE follow_id WHEN NULL THEN 0 ELSE 1 END FROM follow_election_table WHERE follow_id =:idElection")
     fun isElectionsFollowed(idElection: Int): LiveData<Int>
 }

@@ -126,14 +126,14 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:onClick="@{() -> viewModel.followButton()}"
+
             android:text="@string/follow_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/follow_button" />
-
+<!--        android:onClick="@{() -> viewModel.followButton()}"-->
 
 <!--                android.fadeVisible="@{!viewModel.showLoading}"-->
 

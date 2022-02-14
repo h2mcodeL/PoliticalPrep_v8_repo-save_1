@@ -46,8 +46,8 @@ class ElectionsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         //Election list
-        electionsAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
-            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division))
+        electionsAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {  //create adapter, its parameter is the clicklistener, and with this we can navigate .....
+            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division)) //this says its going to the VoterInfo so pass in I.D. and division from navGraph
             Log.i("CHECK DATA", "${it.id}, ${it.name}")
         })
         binding.upcomingElectionsList.adapter = electionsAdapter

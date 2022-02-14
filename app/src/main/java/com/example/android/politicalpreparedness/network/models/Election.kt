@@ -14,7 +14,7 @@ import java.util.*
 @Entity(tableName = "election_table")
 data class Election(
        // @PrimaryKey(autoGenerate = true) val id: Int,
-        @PrimaryKey private val id: Int,
+        @PrimaryKey /*private*/ val id: Int,
         @ColumnInfo(name = "name") val name: String,
         @ColumnInfo(name = "electionDay") val electionDay: Date,
         @Embedded(prefix = "division_") @Json(name = "ocdDivisionId") val division: Division
@@ -23,5 +23,6 @@ data class Election(
 //Table for followed elections
 @Entity(tableName = "follow_election_table")
 data class FollowedElection(
+      //  @PrimaryKey var follow_id: Int)
         @PrimaryKey var follow_id: Int)
 

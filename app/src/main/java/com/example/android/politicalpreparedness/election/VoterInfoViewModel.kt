@@ -12,10 +12,7 @@ import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
-import com.example.android.politicalpreparedness.repository.ElectionsRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
 class VoterInfoViewModel(private val database: ElectionDao,
@@ -23,20 +20,22 @@ class VoterInfoViewModel(private val database: ElectionDao,
                          private val division: Division, application: Application) : ViewModel() {
 
     //TO DO: Add var and methods to populate voter info
-    private val election: Election? = null
+   // private val election: Election? = null
 
-    private val db = getInstance(application)
+ //   private val elect = MutableLiveData<Election?>()
+
+    private val db = getInstance(application)   //what is this for?
 
     //get access to repo
-    private val electionsRepository = ElectionsRepository(db)       //this is not being used
+ //   private val electionsRepository = ElectionsRepository(db)       //this is not being used
 
 
     private val _followedElection = MutableLiveData<Int>()
     val followedElection: LiveData<Int>
-
         get() = database.isElectionsFollowed(electionId)
 
-
+    //this is used for the select item
+    //the id comes from the selected item
     private val _selectedVoterInfo = MutableLiveData<VoterInfoResponse>()
     val selectedVoterInfo: LiveData<VoterInfoResponse>
         get() = _selectedVoterInfo
@@ -74,15 +73,16 @@ class VoterInfoViewModel(private val database: ElectionDao,
         Log.i("Selected Info", "$selectedVoterInfo")
     }
 
-    //get the voter info
+    //get the voter info, launch a coroutine as this is a long running op
     private fun getInfo() {
         viewModelScope.launch {
             try {
                 var address = "country:${division.country}"
                 //address += if (division.state.isNotBlank() && division.state.isNotEmpty()) {    //dont pass address here
-                if (!division.state.isBlank() && !division.state.isEmpty()) {
+                    if (division.state.isNotBlank() && division.state.isNotEmpty()) {
+                    //  address += if (division.state.isBlank() && division.state.isEmpty()) {
+                        address += "/state:${division.state}"
                     //"/state:${division.state}"
-                    address += "/state:${division.state}"
                 } else {
                     address += "/state:ca"
                 }
@@ -124,55 +124,24 @@ class VoterInfoViewModel(private val database: ElectionDao,
         _ballotInformation.value = null
     }
 
-//    private val _followedsElection = MutableLiveData<Int>()     //<Boolean>()//true)
-//    val followedsElection: LiveData<Int>      //<Boolean>
-//        get() = database.isElectionsFollowed(electionId)
-
-
-
-    //this simply says, is the election followed its a LiveData. then using the getter, get it from the database
- //----   private val _isElectionFollowed = MutableLiveData<Int>() // not required
+    private val _isElectionFollowed = MutableLiveData(false)
     val isElectionFollowed: LiveData<Boolean>
-        get() = database.isElectionFollowed(electionId)
+        get() = _isElectionFollowed
+}
 
-//    private val _isElectionsFollowed = Transformations.map(_isElectionFollowed) { followElection ->      //(_followedElection) { followElection ->
-//        followElection?.let {
-//            followElection.equals(1)
-//        }
-//    }
+
 
     //TO DO: Populate voter info -- hide views without provided data.
     /**
     Hint: You will need to ensure proper data is provided from previous fragment.
      */
 
-    //need to resolve issue with Constaint value
-    fun followButton() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                if (isElectionFollowed.value == true) {
-                //if (_isElectionsFollowed.value == true) {
-                   //----  database.clearFollowed()
-                        database.unfollowElection(electionId)
-                    Log.i("UNFOLLOW ELECTION", "$electionId")
-                } else {
-                    database.followElection(electionId)
-                    //isElectionFollowed.value?.equals(false)  check if mutable item needs to be set.
-                    Log.i("FOLLOW ELECTION", "$electionId")
-                }
-            }
-        }
-    }
-
-}
-
 
 
 //TO DO: Add var and methods to support loading URLs
 
-//TODO: Add var and methods to save and remove elections to local database
+//TO DO: Add var and methods to save and remove elections to local database
 
 //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
 
-/*** Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.     */
-
+/*** Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database. */

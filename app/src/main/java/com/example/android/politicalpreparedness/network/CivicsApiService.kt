@@ -49,7 +49,7 @@ interface CivicsApiService {
     @GET("voterinfo")   //"voterinfo" as required for http request
     suspend fun getVoterInfo(
             @Query("address") address: String,  //this is throwing an error. Check on civics api
-            @Query("electionId") electionId: Int): VoterInfoResponse     //deferred added here
+            @Query("electionId") electionId: Int):  /*Deferred<*/VoterInfoResponse//>     //deferred added here
 
     //TO DO: Add representatives API Call
     @GET("representatives")

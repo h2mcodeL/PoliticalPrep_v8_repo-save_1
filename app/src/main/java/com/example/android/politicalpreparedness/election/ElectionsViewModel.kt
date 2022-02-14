@@ -35,13 +35,14 @@ class ElectionsViewModel(
 
 
     //this is for the saved elections
-    private val _savedElection = MutableLiveData<Election>()
-    val savedElection: LiveData<Election>
-        get() = _savedElection
+//    private val _savedElection = MutableLiveData<Election>()
+//    val savedElection: LiveData<Election>
+//        get() = _savedElection
 
     init {
         viewModelScope.launch {
             electionsRepository.refreshElectionsList()
+            savedElectionRepository.refreshFollowElection()
         }
     }
 
@@ -77,8 +78,5 @@ class ElectionsViewModel(
             electionFollowed
         }
     }
-
-
-
 
 }

@@ -47,8 +47,8 @@ class ElectionsFragment : Fragment() {
 
         //Election list
         electionsAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {  //create adapter, its parameter is the clicklistener, and with this we can navigate .....
-            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division)) //this says its going to the VoterInfo so pass in I.D. and division from navGraph
-            Log.i("CHECK DATA", "${it.id}, ${it.name}")
+            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division, it)) //this says its going to the VoterInfo so pass in I.D. and division from navGraph
+             Log.i("CHECK DATA ITEMS", "${it.id}, ${it.name}, ${it.division.state}, ${it.division.country}")
         })
         binding.upcomingElectionsList.adapter = electionsAdapter
 
@@ -61,7 +61,7 @@ class ElectionsFragment : Fragment() {
 
         //SAVED ELECTIONS
         savedElectionsAdapter = ElectionListAdapter(ElectionListAdapter.ElectionClickListener {
-            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division))
+            findNavController().navigate(ElectionsFragmentDirections.actionShowElection(it.id, it.division, it))
         })
 
         binding.savedElectionsList.adapter = savedElectionsAdapter

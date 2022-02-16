@@ -8,6 +8,7 @@
  21.01.22
 Updates - 26.1.2022
 Still works, just some items have stopped working suddenly 14.2.22
+Resolved the address issue on VoterInfo. 15.2.22
 
 
 project stages complete
@@ -149,6 +150,9 @@ Does the application provide a coherent user experience that effectively and int
 
     <string name="follow_button">FOLLOW</string>
     <string name="unfollow_button">UNFOLLOW</string>
+
+    <string name="electionfollowed">Election Followed</string>
+    <string name="electionunfollowed">Election Unfollowed</string>
 
     <!-- permissions messages-->
     <string name="permission_denied_explanation">You need to grant location permission in order to select the location.</string>

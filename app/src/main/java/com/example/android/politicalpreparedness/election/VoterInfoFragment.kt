@@ -33,7 +33,7 @@ class VoterInfoFragment : Fragment() {
         //TO DO: Add ViewModel values and create ViewModel
         val dataSource = ElectionDatabase.getInstance(application).electionDao  //this gives access to teh DAO
 
-        val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())   //.selectedElection
+        val bundle = VoterInfoFragmentArgs.fromBundle(requireArguments())
         val electionId = bundle.argElectionId
         val division = bundle.argDivision
             Log.i("The ElectionID", "$electionId")
@@ -87,33 +87,32 @@ class VoterInfoFragment : Fragment() {
          */
         //check if this is done here or in the viewmodel
 
-        //TO DO: Handle loading of URLs
-
         //TO DO: Handle save button UI state
 
-        viewModel.followedElection.observe(viewLifecycleOwner, Observer { isFollowed ->
+        viewModel.isElectionFollowed.observe(viewLifecycleOwner, Observer { isFollowed ->
             isFollowed?.let {
                 //using when is cleaner
-             //   if (viewModel.followedElection.equals(true)) {
-                if (viewModel.isElectionFollowed.value == true) {
-                //if (viewModel.isElectionsFollowed.value)
-                    binding.followbutton.text = getString(R.string.follow_button)
-                    binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary))   //  nice colour change
+                if (viewModel.isElectionFollowed.value != false) {
+                    binding.followbutton.text = getString(R.string.unfollow_button)
+                    binding.followbutton.setTextColor(resources.getColor(R.color.colorAccent))
+                    Toast.makeText(context, getString(R.string.electionfollowed), Toast.LENGTH_SHORT).show()
+
 
                 } else {
-                    binding.followbutton.text = getString(R.string.unfollow_button)
+                    binding.followbutton.text = getString(R.string.follow_button)
                     binding.followbutton.setTextColor(resources.getColor(R.color.design_default_color_primary_dark))
+                    Toast.makeText(context, getString(R.string.electionunfollowed), Toast.LENGTH_SHORT).show()
                 }
             }
         })
 
-        viewModel.isElectionFollowed.observe(viewLifecycleOwner, Observer { followElection ->
-            if (followElection.equals(true)) {
-                binding.followbutton.text = getString(R.string.unfollow_button)
-            } else {
-                binding.followbutton.text = getString(R.string.follow_button)
-            }
-        })
+//        viewModel.isElectionFollowed.observe(viewLifecycleOwner, Observer { followElection ->
+//            if (followElection.equals(true)) {
+//                binding.followbutton.text = getString(R.string.unfollow_button)
+//            } else {
+//                binding.followbutton.text = getString(R.string.follow_button)
+//            }
+//        })
 
 
         //TO DO: cont'd Handle save button clicks

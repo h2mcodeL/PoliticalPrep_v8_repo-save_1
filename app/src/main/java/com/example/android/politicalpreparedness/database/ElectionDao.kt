@@ -31,13 +31,13 @@ interface ElectionDao {
     @Query("SELECT * FROM election_table ORDER BY electionDay DESC")
     fun getAllElections(): LiveData<List<Election>>
 
-    //get all saved elections to show the followed ones-------
-  //  @Query("SELECT * FROM election_table WHERE id in (SELECT id follow_election_table) ORDER BY electionDay DESC")
-  //  fun getFollowedElections(): LiveData<List<Election>>
+    //get all saved elections to show the followed ones------- this one doesnt work
+   // @Query("SELECT * FROM election_table WHERE id in (SELECT id follow_election_table) ORDER BY electionDay DESC")
+   // fun getFollowedElections(): LiveData<List<Election>>
 
     //this one gets the elections only for the upcoming elecs. Dont use the one above
-    @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE follow_id == id ) ORDER BY electionDay DESC")
-  //  @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE id == id /*follow_id*/) ORDER BY electionDay DESC")
+  //  @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE follow_id == id ) ORDER BY electionDay DESC")
+   @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE id == /*id*/follow_id) ORDER BY electionDay DESC")
     fun getFollowedElections(): LiveData<List<Election>>
 
 
@@ -52,12 +52,12 @@ interface ElectionDao {
     fun getElection(): Election?
 
     // ---- method for passing the followed Election id -- TRY THIS ANOTHER WAY
-//    @Query("INSERT INTO follow_election_table (follow_id) VALUES (:electionID)")
-//    suspend fun followElection(electionID: Int)
-//    suspend fun followElection(election: Election) {
-//        followElection(election.id)
-//        followElection(election)
-//    }
+    @Query("INSERT INTO follow_election_table (follow_id) VALUES (:electionID)")
+    suspend fun followElection(electionID: Int)
+    suspend fun followElection(election: Election) {
+        followElection(election.id)
+        followElection(election)
+    }
 
 
     //TO DO: Add clear query

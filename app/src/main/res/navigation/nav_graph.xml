@@ -36,15 +36,14 @@
         <argument
             android:name="arg_division"
             app:argType="com.example.android.politicalpreparedness.network.models.Division" />
-<!--        <action-->
-<!--            android:id="@+id/action_voterInfoFragment_to_electionsFragment"-->
-<!--            app:destination="@id/electionsFragment" />-->
+        <action
+            android:id="@+id/action_voterInfoFragment_to_electionsFragment"
+            app:destination="@id/electionsFragment" />
 
-<!--                <argument-->
-<!--                    android:name="selectedElection"-->
-<!--                    app:argType="com.example.android.politicalpreparedness.network.models.Election"/>-->
-
-    </fragment>
+                <argument
+                    android:name="selectedElection"
+                    app:argType="com.example.android.politicalpreparedness.network.models.Election"/>
+         </fragment>
 
     <fragment
         android:id="@+id/electionsFragment"
@@ -56,7 +55,7 @@
         <action
             android:id="@+id/action_showElection"
             app:destination="@id/voterInfoFragment" />
-<!--            android:id="@+id/electionFragment_to_voterInfoFragment"-->
+
         
     </fragment>
 </navigation>

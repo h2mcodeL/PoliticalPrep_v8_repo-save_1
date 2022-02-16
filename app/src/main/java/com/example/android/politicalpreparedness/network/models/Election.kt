@@ -23,6 +23,5 @@ data class Election(
 //Table for followed elections
 @Entity(tableName = "follow_election_table")
 data class FollowedElection(
-      //  @PrimaryKey var follow_id: Int)
         @PrimaryKey var follow_id: Int)
 

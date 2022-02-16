@@ -35,9 +35,9 @@ class ElectionsViewModel(
 
 
     //this is for the saved elections
-//    private val _savedElection = MutableLiveData<Election>()
-//    val savedElection: LiveData<Election>
-//        get() = _savedElection
+    private val _savedElection = MutableLiveData<Election>()
+    val savedElection: LiveData<Election>
+        get() = _savedElection
 
     init {
         viewModelScope.launch {
@@ -65,13 +65,13 @@ class ElectionsViewModel(
         _navigateToVoterInfo.value = null
     }
 
-//    fun displaySavedElection(savedElection: Election) {
-//        _savedElection.value = savedElection
-//    }
+    fun displaySavedElection(savedElection: Election) {
+        _savedElection.value = savedElection
+    }
 
-//    fun displaySavedElectionComplete() {
-//        _savedElection.value = null
-//    }
+    fun displaySavedElectionComplete() {
+        _savedElection.value = null
+    }
 
     private fun checkForSavedElection() {
         viewModelScope.launch {

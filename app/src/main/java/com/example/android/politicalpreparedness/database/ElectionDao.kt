@@ -1,10 +1,7 @@
 package com.example.android.politicalpreparedness.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.FollowedElection
 
@@ -17,7 +14,10 @@ interface ElectionDao {
     suspend fun insertAll(vararg elections: Election)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFollowedElection(followedElection: FollowedElection)
+    suspend fun insertFollowedElection(followedElection: FollowedElection)
+
+    @Update //used to update data into the database
+    suspend fun update(followedElection: FollowedElection)
 
     //Is Election Followed CHECK 1 ---
    // @Query("SELECT EXISTS (SELECT 1 FROM follow_election_table WHERE follow_id = :id)")
@@ -37,7 +37,7 @@ interface ElectionDao {
 
     //this one gets the elections only for the upcoming elecs. Dont use the one above
   //  @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE follow_id == id ) ORDER BY electionDay DESC")
-   @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE id == /*id*/follow_id) ORDER BY electionDay DESC")
+   @Query("SELECT * FROM election_table WHERE id in (SELECT id FROM follow_election_table WHERE id == follow_id) ORDER BY electionDay DESC")
     fun getFollowedElections(): LiveData<List<Election>>
 
 

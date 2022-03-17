@@ -47,8 +47,6 @@ class RepresentativeViewModel : ViewModel() {
                 ////    val offices = response.offices
                 //    val officials = response.officials
 
-
-
                     val address = _address.value!!.toFormattedString()
                     val (office, officials) = CivicsApi.retrofitService.getRepresentatives(address)
                     _representatives.value = office.flatMap { office1 ->
@@ -72,8 +70,7 @@ class RepresentativeViewModel : ViewModel() {
     }
 
     init {
-        _address.value = Address("", "", "", "New York", "")
-
+        _address.value = Address("", "", "", "", "") //state "California"
     }
 
 

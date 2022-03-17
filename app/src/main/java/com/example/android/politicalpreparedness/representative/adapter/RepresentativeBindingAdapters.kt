@@ -22,9 +22,11 @@ fun fetchImage(view: ImageView, src: String?) {
                                 .placeholder(R.drawable.ic_profile)
                                 .error(R.drawable.ic_profile)
                                 .circleCrop()
+                                .fallback(R.drawable.ic_broken_image)   //added for no image
                 )
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view)
+
 
 //        Glide.with(view.context)
 //                .load(uri)

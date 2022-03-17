@@ -54,24 +54,24 @@ class DetailFragment : Fragment() {
         //initialise viewmodel
         viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
 
-        binding.viewModel = viewModel
+        binding.viewModel = viewModel   //bind the xml view to the viewmodel for data binding
         binding.lifecycleOwner = this
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext()) //this option is for fragments, there is an equivalent for activity
 
         //set up the adapter here, however the item should be in Activity below
         //TO DO: Define and assign Representative adapter
 
-        binding.buttonSearch.setOnClickListener {
+     /**   binding.buttonSearch.setOnClickListener {
            // viewModel.getRepresentatives()
            // getLocationArea()
-            hideKeyboard()
+            hideKeyboard()  //the items have been entered, so collapse keyboard
             if (binding.addressLine1.text.trim().isNullOrEmpty() ||
-                    binding.city.text.trim().isNullOrEmpty() ||
-                    binding.zip.text.trim().isNullOrEmpty() ||
-                    binding.state.selectedItem.toString().trim().isNullOrEmpty())
+                    binding.city.text.trim().isNullOrEmpty() ||       //isNullOrEmpty() ||
+                    binding.zip.text.trim().isEmpty() ||        //isNullOrEmpty() ||
+                    binding.state.selectedItem.toString().trim().isEmpty())        //.isNullOrEmpty())
             {
-                Toast.makeText(requireContext(), "Fill all erquired gaps", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "Fill all required gaps", Toast.LENGTH_SHORT)
                         .show()
             } else {
                 viewModel.getAddressFromGeoLocation(
@@ -80,12 +80,11 @@ class DetailFragment : Fragment() {
                                 line2 = binding.addressLine2.text.toString(),
                                 city = binding.city.text.toString(),
                                 state = binding.state.selectedItem.toString(),
-                                zip = binding.zip.text.toString()
-
-                        )
-                )
+                                zip = binding.zip.text.toString()))
+                viewModel.getRepresentatives()
             }
         }
+
         //TO DO: Establish button listeners for field and location search
         binding.buttonLocation.setOnClickListener {
           // ---  if(checkLocationPermissions()) {        //check location permnissions enabled
@@ -94,6 +93,7 @@ class DetailFragment : Fragment() {
       //----  } else {
           //----  checkLocationPermissions() }
      }
+     **/
 
         //create adapter for recyclerview, then bind to the recycler in the xml layout
         val repsAdapter = RepresentativeListAdapter()
@@ -171,10 +171,11 @@ class DetailFragment : Fragment() {
     private fun getLocation() {
         if (isPermissionGranted()) {
             fusedLocationProviderClient.lastLocation.
-            addOnSuccessListener { location ->
+            addOnSuccessListener { location : Location? ->
                 location?.let {
                 val address =  getGeoLocation((location))
                 viewModel.getAddressFromGeoLocation(address)
+                    Toast.makeText(context, "Permission given", Toast.LENGTH_SHORT).show()
             } } }
         else {
             isPermissionGranted()
@@ -183,23 +184,66 @@ class DetailFragment : Fragment() {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getLocationArea() {
-        if (checkLocationPermissions()) {
-            LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation.addOnSuccessListener {
-                if (it == null) {
-                    Toast.makeText(requireContext(), "Error with getting location.", Toast.LENGTH_SHORT)
-                            .show()
-                } else {
-                    viewModel.getAddressFromGeoLocation(getGeoLocation(it))
-                }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = this
+
+
+        binding.buttonSearch.setOnClickListener {
+            // viewModel.getRepresentatives()
+            // getLocationArea()
+            hideKeyboard()  //the items have been entered, so collapse keyboard
+            //here we are checking the text box and not actual data in the viewmodel
+            if (binding.addressLine1.text.trim().isNullOrEmpty() ||
+                    binding.city.text.trim().isNullOrEmpty() ||       //isNullOrEmpty() ||
+                    binding.zip.text.trim().isEmpty() ||        //isNullOrEmpty() ||
+                    binding.state.selectedItem.toString().trim().isEmpty())        //.isNullOrEmpty())
+            {
+                Toast.makeText(requireContext(), "Fill all required gaps", Toast.LENGTH_SHORT)
+                        .show()
+            } else {
+                viewModel.getAddressFromGeoLocation(
+                        Address(    //now populate the address with the entered data
+                                line1 = binding.addressLine1.text.toString(),
+                                line2 = binding.addressLine2.text.toString(),
+                                city = binding.city.text.toString(),
+                                state = binding.state.selectedItem.toString(),
+                                zip = binding.zip.text.toString()))
+                viewModel.getRepresentatives()
             }
-        } else {
-            requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_LOCATION_PERMISSION)
+        }
+
+        //TO DO: Establish button listeners for field and location search
+        binding.buttonLocation.setOnClickListener {
+            // ---  if(checkLocationPermissions()) {        //check location permnissions enabled
+            getLocation()
+            //    getLocationArea()
+            //----  } else {
+            //----  checkLocationPermissions() }
         }
     }
+
+
+
+
+//    @SuppressLint("MissingPermission")
+//    private fun getLocationArea() {
+//        if (checkLocationPermissions()) {
+//            LocationServices.getFusedLocationProviderClient(requireContext()).lastLocation.addOnSuccessListener {
+//                if (it == null) {
+//                    Toast.makeText(requireContext(), "Error with getting location.", Toast.LENGTH_SHORT)
+//                            .show()
+//                } else {
+//                    viewModel.getAddressFromGeoLocation(getGeoLocation(it))
+//                }
+//            }
+//        } else {
+//            requestPermissions(
+//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                    REQUEST_LOCATION_PERMISSION)
+//        }
+//    }
 
 
     /**    private fun enableLocation() { try the one above

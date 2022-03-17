@@ -183,25 +183,32 @@ class VoterInfoViewModel(private val database: ElectionDao,
              val elec = FollowedElection(electionId)
             if (isElectionFollowed.value != false) {
                 deleteElection()
+                update(elec)
             } else {
                 insert(elec)
-            }}
+            }
+
+            }
         }
     }
 
-    private fun insert(followelection: FollowedElection) {
+    private suspend fun insert(followelection: FollowedElection) {
                 database.insertFollowedElection(followelection)
-                _isElectionFollowed.value = true
+                _isElectionFollowed.postValue(true)
     }
 
     private suspend fun deleteElection() {
-        viewModelScope.launch {
+     //   viewModelScope.launch {
           //  return@launch withContext(Dispatchers.IO) {
-                //database.clearFollowed()
-                database.unfollowElection(electionId)
-                _isElectionFollowed.value = false
-            }
+                database.clearFollowed()
+               // database.unfollowElection(electionId)
+                _isElectionFollowed.value = null
+          //  }
       //  }
+    }
+
+    private suspend fun update(followelection: FollowedElection) {
+        database.update(followelection)
     }
 }
 

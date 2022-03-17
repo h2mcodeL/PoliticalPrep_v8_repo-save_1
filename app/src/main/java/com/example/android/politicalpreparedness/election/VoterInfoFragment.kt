@@ -94,7 +94,7 @@ class VoterInfoFragment : Fragment() {
                 //using when is cleaner
                 if (viewModel.isElectionFollowed.value != false) {
                     binding.followbutton.text = getString(R.string.unfollow_button)
-                    binding.followbutton.setTextColor(resources.getColor(R.color.colorAccent))
+                    binding.followbutton.setTextColor(resources.getColor(R.color.colorPrimary))
                     Toast.makeText(context, getString(R.string.electionfollowed), Toast.LENGTH_SHORT).show()
 
 

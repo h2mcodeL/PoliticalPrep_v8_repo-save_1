@@ -10,7 +10,7 @@ Updates - 26.1.2022
 Still works, just some items have stopped working suddenly 14.2.22
 Resolved the address issue on VoterInfo. 15.2.22
 Button for save works again - 25.2.22
-
+Reps images load - 17.3.22
 
 project stages complete
 Version 8 -
@@ -177,6 +177,7 @@ Does the application provide a coherent user experience that effectively and int
     <string name="representatives_search">Representatives Search</string>
     <string name="my_representatives">My Representatives:</string>
     <string name="city">City</string>
+    <string name="zip">Zip</string>
 
 
 </resources>

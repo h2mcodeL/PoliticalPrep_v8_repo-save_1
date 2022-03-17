@@ -5,7 +5,7 @@
     <!-- >TO DO: Add Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />  <!-- this is required for the image download -->
 <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
 
     <application

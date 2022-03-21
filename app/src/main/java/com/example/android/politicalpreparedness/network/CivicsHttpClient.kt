@@ -6,7 +6,11 @@ class CivicsHttpClient : OkHttpClient() {
 
     companion object {
 
+//<<<<<<< Updated upstream
         const val API_KEY = "Add API key here" //TO DO: Place your API Key Here
+//=======
+     //   const val API_KEY = "Add you API KEY" //TO DO: Place your API Key Here
+//>>>>>>> Stashed changes
 
         fun getClient(): OkHttpClient {
             return Builder()

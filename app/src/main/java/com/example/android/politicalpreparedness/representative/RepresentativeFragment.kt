@@ -19,7 +19,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.politicalpreparedness.BuildConfig
 import com.example.android.politicalpreparedness.R
@@ -46,7 +45,7 @@ class DetailFragment : Fragment() {
     }
 
     // Fragment for OnCreate -
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View/*?*/ {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         //TO DO: Establish bindings
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_representative, container, false)
@@ -104,7 +103,7 @@ class DetailFragment : Fragment() {
 
 
         //TO DO: Populate Representative adapter
-        viewModel.representatives.observe(viewLifecycleOwner, Observer {
+        viewModel.representatives.observe(viewLifecycleOwner, {
             it?.let {
                 repsAdapter.submitList(it)
             }
@@ -119,6 +118,18 @@ class DetailFragment : Fragment() {
 
         return binding.root
     }
+
+/**
+    //using findView with Fragments ------------
+    private fun coordinateMotion() {
+        val constraint: ConstraintLayout = binding.addressForm      //findViewById(R.id.address_line_1)
+        val motionLayout: MotionLayout = binding.addrId
+
+//        val listener = ConstraintLayout.OnOffsetChangedListener { unused, verticalOffset ->
+//            val seekPosition = -verticalOffset / constraint.totalScrollRange.toFloat()
+//            motionLayout.progress = seekPosition
+     //  }
+    } */
 
     override fun onStart() {
         super.onStart()
@@ -195,8 +206,8 @@ class DetailFragment : Fragment() {
             // getLocationArea()
             hideKeyboard()  //the items have been entered, so collapse keyboard
             //here we are checking the text box and not actual data in the viewmodel
-            if (binding.addressLine1.text.trim().isNullOrEmpty() ||
-                    binding.city.text.trim().isNullOrEmpty() ||       //isNullOrEmpty() ||
+            if (binding.addressLine1.text.trim().isEmpty() ||       //isNullOrEmpty
+                    binding.city.text.trim().isEmpty() ||       //isNullOrEmpty() ||
                     binding.zip.text.trim().isEmpty() ||        //isNullOrEmpty() ||
                     binding.state.selectedItem.toString().trim().isEmpty())        //.isNullOrEmpty())
             {

@@ -6,85 +6,99 @@
     <Transition
         app:constraintSetStart="@+id/start"
         app:constraintSetEnd="@+id/end">
-<!--        <OnSwipe app:touchAnchorId="@id/representative_title" />-->
-<!--    </Transition>-->
-
-    <KeyFrameSet>
-        <KeyPosition
-            app:framePosition="25"
-            app:motionTarget="@id/representative_title"
-            app:keyPositionType="parentRelative"
-            app:percentY="0.6"/>
-
-        <KeyPosition
-            app:framePosition="50"
-            app:motionTarget="@id/representative_title"
-            app:keyPositionType="parentRelative"
-            app:percentY="0.5"/>
-
-        <KeyPosition
-            app:framePosition="75"
-            app:motionTarget="@id/representative_title"
-            app:keyPositionType="parentRelative"
-            app:percentY="0.6"/>
-
-        <keyAttribute
-            app:framePosition="50"
-            app:motionTarget="@id/representative_title"/>
-
-        <keyAttribute
-            app:framePosition="100"
-            app:motionTarget="@id/representative_title"/>
-
-        <keyAttribute
-            app:framePosition="85"
-            app:motionTarget="@id/representative_title"/>
-    </KeyFrameSet>
+        <OnSwipe app:touchAnchorId="@id/representative_list" />
     </Transition>
 
-    <!-- Constraints to apply at the start of the animation -->
+        <!--
+        <KeyFrameSet>
+            <KeyPosition
+                app:framePosition="50"
+                app:motionTarget="@id/address_form"
+                app:keyPositionType="parentRelative"
+                app:percentY="0.5"/>
+
+             <KeyPosition
+                 app:framePosition="85"
+                 app:motionTarget="@id/address_form"
+                 app:keyPositionType="parentRelative"
+                 app:percentY="0.85"/>
+
+            <KeyAttribute
+                app:framePosition="10"
+                app:motionTarget="@id/address_form"/>
+
+            <KeyAttribute
+                app:framePosition="150"
+                app:motionTarget="@id/address_form"
+                android:translationY="50dp"/>
+        </KeyFrameSet>
+    </Transition>
+
+< ! - -    <OnSwipe-->
+<!--        app:dragDirection="dragUp"-->
+<!--        app:touchAnchorId="@id/representative_title"-->
+<!--        app:onTouchUp="autoComplete"-->
+<!--        />-->
+    <!--    app:clickAction="toggle"-->
+
+
+
+<!-- Constraints to apply at the start of the animation -->
     <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/representative_list"
 
-                <Constraint
-                    android:id="@+id/motion_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@+id/constraint"/>
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
-                <Constraint
-                    android:id="@+id/representative_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/motion_layout"
-                    />
+<!--        app:layout_anchorGravity="center"-->
+<!--        app:layout_anchor="@id/address_form"-->
 
-
+<!--        app:layout_constraintTop_toBottomOf="@+id/parent"-->
 <!--        <Constraint-->
-<!--            android:id="@+id/representative_list"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+<!--            app:layout_editor_absoluteY="27dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            android:id="@+id/address_line_1" />-->
+    </ConstraintSet>
+
+<ConstraintSet android:id="@+id/end">
+    <Constraint
+        android:id="@id/representative_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        />
+</ConstraintSet>
 
 <!--        <Constraint-->
 <!--            android:id="@+id/search_title"-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@id/motion_layout" />-->
+<!--            app:layout_constraintTop_toTopOf="parent" _____________   />-->
+
 
 <!--        <Constraint-->
 <!--            android:id="@+id/address_line_1"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintTop_toBottomOf="@id/search_title" />-->
 
 <!--        <Constraint-->
 <!--            android:id="@+id/address_line_2"-->
 <!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintTop_toBottomOf="@id/address_line_1" />-->
 
@@ -92,111 +106,75 @@
 <!--            android:id="@+id/city"-->
 <!--            android:layout_width="0dp"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/state"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintTop_toBottomOf="@id/address_line_2" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/state"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/city"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@id/city"-->
-<!--            app:layout_constraintTop_toTopOf="@id/city" />-->
 
 <!--        <Constraint-->
 <!--            android:id="@+id/zip"-->
 <!--            android:layout_width="0dp"-->
 <!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
 <!--            app:layout_constraintEnd_toEndOf="@id/city"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintTop_toBottomOf="@id/city" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/button_search"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/zip" />-->
 
 <!--        <Constraint-->
 <!--            android:id="@+id/button_location"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/button_search" />-->
-
-    </ConstraintSet>
-
-
-    <ConstraintSet android:id="@+id/end">
-
-        <Constraint
-            android:id="@+id/motion_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/constraint"/>
-
-        <Constraint
-            android:id="@+id/representative_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/constraint"
-            />
-
-<!--        <Constraint-->
-<!--            android:id="@+id/address_line_1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            app:layout_anchor="@+id/representative_list"-->
-<!--            app:layout_anchorGravity="top|center"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/search_title"-->
-<!--            app:layout_constraintTop_toTopOf="@id/search_title" />-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/button_search"/>-->
+                <!--            app:layout_constraintTop_toBottomOf="@id/button_search" />-->
+
+
+
 
 <!--        <Constraint-->
-<!--            android:id="@+id/address_line_2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/address_line_1" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/city"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/state"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/address_line_2" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/state"-->
 <!--            android:layout_width="0dp"-->
 <!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/city"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@id/city"-->
-<!--            app:layout_constraintTop_toTopOf="@id/city" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/zip"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/city"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginBottom="8dp"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/city" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/button_search"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/zip" />-->
-
-<!--        <Constraint-->
-<!--            android:id="@+id/button_location"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
 <!--            app:layout_constraintTop_toBottomOf="@id/button_search" />-->
 
-    </ConstraintSet>
+<!--        <Constraint-->
+<!--            android:id="@+id/list_placeholder"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/representative_title" />-->
+<!--        <Constraint-->
+<!--            android:id="@+id/representative_list"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/address_form" />-->
+
+<!--        <Constraint-->
+<!--            android:id="@+id/address_form"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent" __________/>-->
+
+<!--        <Constraint-->
+<!--            android:id="@+id/representative_title"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="wrap_content"/>-->
+<!--    </ConstraintSet>-->
+
+<!--    <ConstraintSet android:id="@+id/end">-->
+<!--&lt;!&ndash;        <Constraint android:id="@id/widget" />&ndash;&gt;-->
+<!--    </ConstraintSet>-->
+
+<!--    <Transition-->
+<!--        app:constraintSetEnd="@id/end"-->
+<!--        app:constraintSetStart="@+id/start">-->
+
+<!--        <OnSwipe app:touchAnchorId="@id/search_title" />-->
+<!--    </Transition>-->
 </MotionScene>
